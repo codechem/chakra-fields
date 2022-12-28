@@ -1,11 +1,12 @@
 import React from 'react';
-import { FormControl, FormErrorMessage, FormLabel, Input, InputProps, FormLabelProps } from '@chakra-ui/react';
 import { useField } from 'formik';
+import { Input, InputProps } from '@chakra-ui/react';
 
-import { CustomLabelProps, ValidatedFieldProps } from '../types';
-import { floatingLabelProps } from '../utils';
+import FormControlField from './form-control-field';
+import { extractFormControlOptions } from '../utils';
+import { ValidatedFieldProps } from '../types';
 
-export type TextFieldProps = ValidatedFieldProps<string> & CustomLabelProps & InputProps;
+export type TextFieldProps = ValidatedFieldProps<string> & InputProps;
 
 /**
  * An **input** type **text** component with a label that uses `Input` from `Chakra UI` and handles its state and validation with `formik`.
@@ -16,16 +17,25 @@ export type TextFieldProps = ValidatedFieldProps<string> & CustomLabelProps & In
  * @param {object} props.labelCss Optional parameter. Custom css for the label.
  * @callback props.validate Optional parameter. Function that will be used by `formik` to validate the input from this field.
  */
-const TextField = ({ name, validate, label, labelPosition = 'before', labelCss, ...inputProps }: TextFieldProps) => {
+const TextField: React.FC<TextFieldProps> = ({
+	name,
+	validate,
+	label,
+	labelPosition = 'before',
+	labelCss,
+	formControlCss,
+	errorMessageCss,
+	...inputProps
+}: TextFieldProps) => {
 	const [field, meta] = useField<string>({ name, type: 'text', validate });
-	let formLabel = (<FormLabel {...labelCss}>{label}</FormLabel>);
-	if (labelPosition === 'floating') {
-		formLabel = (<FormLabel {...labelCss} {...floatingLabelProps} >{label}</FormLabel>);
-	}
- 
+
 	return (
-		<FormControl isInvalid={!!meta.error && meta.touched}>
-			{labelPosition === 'before' && formLabel}
+		<FormControlField
+			meta={meta}
+			errorMessageCss={errorMessageCss}
+			labelProps={{ label, labelPosition, labelCss }}
+			{...{ ...extractFormControlOptions(inputProps), ...formControlCss }}
+		>
 			<Input
 				{...inputProps}
 				{...field}
@@ -38,9 +48,7 @@ const TextField = ({ name, validate, label, labelPosition = 'before', labelCss, 
 					inputProps.onBlur?.(e);
 				}}
 			/>
-			{(labelPosition === 'after' || labelPosition === 'floating') && formLabel}
-			<FormErrorMessage>{meta.error}</FormErrorMessage>
-		</FormControl>
+		</FormControlField>
 	);
 };
 
