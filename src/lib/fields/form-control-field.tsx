@@ -1,6 +1,6 @@
 import React from 'react';
 import { FieldMetaProps } from 'formik';
-import { FormControl, FormErrorMessage, FormLabel, FormErrorMessageProps, FormControlProps } from '@chakra-ui/react';
+import { FormControl, FormControlProps, FormLabel, FormErrorMessage, FormErrorMessageProps } from '@chakra-ui/react';
 
 import { FieldLabelProps } from '../types';
 import { floatingLabelProps } from '../utils';
@@ -11,7 +11,13 @@ export type FormControlFieldProps = {
     errorMessageCss?: FormErrorMessageProps;
 } & FormControlProps;
 
-const FormControlField: React.FC<FormControlFieldProps> = ({ meta, labelProps, errorMessageCss, children, ...formControlProps }: FormControlFieldProps) => {
+const FormControlField: React.FC<FormControlFieldProps> = ({
+    meta,
+    labelProps,
+    errorMessageCss,
+    children,
+    ...formControlProps
+}: FormControlFieldProps) => {
 	let formLabel = null;
     if (labelProps?.label) {
         formLabel = (<FormLabel {...labelProps?.labelCss}>{labelProps.label}</FormLabel>);
