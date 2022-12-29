@@ -1,9 +1,9 @@
 import React from 'react';
 import { useField } from 'formik';
-import { NumberInput, NumberInputProps, NumberInputField } from '@chakra-ui/react'
+import { NumberInput, NumberInputProps } from '@chakra-ui/react'
 
 import FormControlField from './form-control-field';
-import { extractFormControlOptions, isPresent } from '../utils';
+import { extractFormControlOptions, isValidNumber } from '../utils';
 import { ValidatedFieldProps } from '../types';
 
 export type NumberFieldProps = ValidatedFieldProps<number | undefined> & NumberInputProps;
@@ -47,7 +47,7 @@ const NumberField: React.FC<NumberFieldProps> = ({
                 name={field.name}
 				defaultValue={meta.value}
 				onChange={(valueAsString: string, valueAsNumber: number) => {
-					helpers.setValue(isPresent(valueAsNumber) ? valueAsNumber : undefined);
+					helpers.setValue(isValidNumber(valueAsNumber) ? valueAsNumber : undefined);
                     numberInputProps.onChange?.(valueAsString, valueAsNumber);
 				}}
 				onBlur={(e: React.FocusEvent<HTMLInputElement>) => {
@@ -55,7 +55,6 @@ const NumberField: React.FC<NumberFieldProps> = ({
 					numberInputProps.onBlur?.(e);
 				}}
 			>
-				<NumberInputField/>
                 {children}
 			</NumberInput>
 		</FormControlField>

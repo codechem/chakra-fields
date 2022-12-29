@@ -22,6 +22,6 @@ export const extractFormControlOptions = (props: any): FormControlOptions => {
     };
 };
 
-export const isPresent = (value: any) => {
-    return value !== null && value !== undefined && !isNaN(value);
+export const isValidNumber = (value: any) => {
+    return value !== null && value !== undefined && !isNaN(value) && value !== '';
 }
