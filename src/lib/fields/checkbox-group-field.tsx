@@ -49,7 +49,9 @@ const CheckboxGroupField: React.FC<CheckboxGroupFieldProps> = ({
 			labelProps={{ label, labelPosition, labelCss }}
 			{...formControlCss}
 		>
-            <CheckboxGroupProvider value={{ field, meta, helpers, size, isDisabled, colorScheme, onChange, onBlur }}>
+            <CheckboxGroupProvider
+                value={{ field, meta, helpers, size, isDisabled, colorScheme, onChange, onBlur }}
+            >
                 {children}
             </CheckboxGroupProvider>
 		</FormControlField>

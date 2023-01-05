@@ -19,7 +19,16 @@ const CheckboxGroupFieldItem: React.FC<CheckboxGroupFieldItemProps> = ({
     children,
 	...checkboxProps
 }: CheckboxGroupFieldItemProps) => {
-	const { field, meta, helpers, size, isDisabled, colorScheme, onChange, onBlur } = useCheckboxGroupContext();
+	const {
+		field,
+		meta,
+		helpers,
+		size,
+		isDisabled,
+		colorScheme,
+		onChange,
+		onBlur
+	} = useCheckboxGroupContext();
 	return (
         <Checkbox
 			size={size}
@@ -28,7 +37,7 @@ const CheckboxGroupFieldItem: React.FC<CheckboxGroupFieldItemProps> = ({
 			{...checkboxProps}
 			value={value}
             name={field.name}
-            isChecked={field.checked}
+            isChecked={meta.value.includes(value)}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
 				let newValues = meta.value ?? [];
 				if (e.target.checked) {
