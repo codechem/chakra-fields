@@ -2,12 +2,12 @@ import React from 'react';
 import { FieldMetaProps } from 'formik';
 import { FormControl, FormControlProps, FormLabel, FormErrorMessage, FormErrorMessageProps } from '@chakra-ui/react';
 
-import { FieldLabelProps } from '../types';
+import { FormFieldLabelProps } from '../types';
 import { floatingLabelProps } from '../utils';
 
 export type FormControlFieldProps = {
     meta: FieldMetaProps<any>;
-    labelProps?: FieldLabelProps;
+    labelProps?: FormFieldLabelProps;
     errorMessageCss?: FormErrorMessageProps;
 } & FormControlProps;
 

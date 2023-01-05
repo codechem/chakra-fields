@@ -23,5 +23,5 @@ export const extractFormControlOptions = (props: any): FormControlOptions => {
 };
 
 export const isValidNumber = (value: any) => {
-    return value !== null && value !== undefined && !isNaN(value) && value !== '';
+    return !!value && !isNaN(value);
 }

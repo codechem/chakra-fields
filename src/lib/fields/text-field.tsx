@@ -4,9 +4,9 @@ import { Input, InputProps } from '@chakra-ui/react';
 
 import FormControlField from './form-control-field';
 import { extractFormControlOptions } from '../utils';
-import { ValidatedFieldProps } from '../types';
+import { FormFieldProps, ValidatedFieldProps } from '../types';
 
-export type TextFieldProps = ValidatedFieldProps<string> & InputProps;
+export type TextFieldProps = ValidatedFieldProps<string> & FormFieldProps & InputProps;
 
 /**
  * An **input** type **text** component with a label that uses `Input` from `Chakra UI` and handles its state and validation with `formik`.

@@ -4,9 +4,9 @@ import { NumberInput, NumberInputProps } from '@chakra-ui/react'
 
 import FormControlField from './form-control-field';
 import { extractFormControlOptions, isValidNumber } from '../utils';
-import { ValidatedFieldProps } from '../types';
+import { FormFieldProps, ValidatedFieldProps } from '../types';
 
-export type NumberFieldProps = ValidatedFieldProps<number | undefined> & NumberInputProps;
+export type NumberFieldProps = ValidatedFieldProps<number | undefined> & FormFieldProps & NumberInputProps;
 
 /**
  * An **input type number** component with a floating label that uses `NumberInput` from `Chakra UI` and handles its state and validation with `formik`.

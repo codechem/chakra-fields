@@ -1,12 +1,19 @@
 import React from 'react';
 import { useField } from 'formik';
-import { Select, SelectProps } from '@chakra-ui/react';
 
+import Item from './checkbox-group-field-item';
 import FormControlField from './form-control-field';
-import { extractFormControlOptions, isValidNumber } from '../utils';
 import { FormFieldProps, ValidatedFieldProps } from '../types';
+import { CheckboxGroupProvider } from '../context/checkbox-group-context';
 
-export type SelectFieldProps = ValidatedFieldProps<string | number> & FormFieldProps & SelectProps;
+export type CheckboxGroupFieldProps = {
+    children?: React.ReactNode;
+    size?: "sm" | "md" | "lg";
+    isDisabled?: boolean;
+    colorScheme?: (string & {}) | "blue" | "cyan" | "gray" | "green" | "orange" | "pink" | "purple" | "red" | "teal" | "yellow" | "whiteAlpha" | "blackAlpha" | "linkedin" | "facebook" | "messenger" | "whatsapp" | "twitter" | "telegram";
+    onChange?: (values: (string | number)[]) => void;
+    onBlur?: React.FocusEventHandler<HTMLInputElement>;
+} & ValidatedFieldProps<(string | number)[]> & FormFieldProps;
 
 /**
  * A **select** type component with a floating label that uses `Select` from `Chakra UI` and handles its state and validation with `formik`.
@@ -19,46 +26,35 @@ export type SelectFieldProps = ValidatedFieldProps<string | number> & FormFieldP
  * @param {object} props.labelCss Optional parameter. Custom css for the floating label.
  * @callback props.validate Optional parameter. Function that will be used by `formik` to validate the input from this field.
  */
-const SelectField: React.FC<SelectFieldProps> = ({
+const CheckboxGroupField: React.FC<CheckboxGroupFieldProps> = ({
 	name,
-	validate,
-    children: options,
+    validate,
+    size,
+    isDisabled,
+    colorScheme,
+    onChange,
+    onBlur,
+    children,
 	label,
 	labelPosition = 'before',
 	labelCss,
 	formControlCss,
-	errorMessageCss,
-	...selectProps
-}: SelectFieldProps) => {
-	const [field, meta, helpers] = useField<string | number>({ name, validate, type: 'select' });
-
+	errorMessageCss
+}: CheckboxGroupFieldProps) => {
+	const [field, meta, helpers] = useField<(string | number)[]>({ name, validate });
 	return (
 		<FormControlField
 			meta={meta}
 			errorMessageCss={errorMessageCss}
 			labelProps={{ label, labelPosition, labelCss }}
-			{...{ ...extractFormControlOptions(selectProps), ...formControlCss }}
+			{...formControlCss}
 		>
-			<Select
-				{...selectProps}
-				{...field}
-				onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
-					let val: string | number = e.target.value;
-					if (isValidNumber(val)) {
-						val = Number(val);
-					}
-					helpers.setValue(val);
-					selectProps.onChange?.(e);
-				}}
-				onBlur={(e: React.FocusEvent<HTMLSelectElement>) => {
-					field.onBlur(e);
-					selectProps.onBlur?.(e);
-				}}
-			>
-				{options}
-			</Select>
+            <CheckboxGroupProvider value={{ field, meta, helpers, size, isDisabled, colorScheme, onChange, onBlur }}>
+                {children}
+            </CheckboxGroupProvider>
 		</FormControlField>
 	);
 };
 
-export default SelectField;
+export default Object.assign(CheckboxGroupField, { Item });
+
