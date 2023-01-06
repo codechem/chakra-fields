@@ -3,10 +3,10 @@ import { useField } from 'formik';
 import { Select, SelectProps } from '@chakra-ui/react';
 
 import FormControlField from './form-control-field';
-import { extractFormControlOptions, isValidNumber } from '../utils';
+import { extractFormControlOptions } from '../utils';
 import { FormFieldProps, ValidatedFieldProps } from '../types';
 
-export type SelectFieldProps = ValidatedFieldProps<string | number> & FormFieldProps & SelectProps;
+export type SelectFieldProps = ValidatedFieldProps<string> & FormFieldProps & SelectProps;
 
 /**
  * A **select** type component with a floating label that uses `Select` from `Chakra UI` and handles its state and validation with `formik`.
@@ -25,29 +25,27 @@ const SelectField: React.FC<SelectFieldProps> = ({
     children: options,
 	label,
 	labelPosition = 'before',
-	labelCss,
-	formControlCss,
-	errorMessageCss,
+	labelProps,
+	formControlProps,
+	errorMessageProps,
 	...selectProps
 }: SelectFieldProps) => {
-	const [field, meta, helpers] = useField<string | number>({ name, validate, type: 'select' });
-
+	const [field, meta] = useField<string>({ name, validate, type: 'select' });
 	return (
 		<FormControlField
-			meta={meta}
-			errorMessageCss={errorMessageCss}
-			labelProps={{ label, labelPosition, labelCss }}
-			{...{ ...extractFormControlOptions(selectProps), ...formControlCss }}
+			name={field.name}
+			label={label as any}
+			labelProps={labelProps}
+			labelPosition={labelPosition}
+			errorMessageProps={errorMessageProps}
+			{...{ ...extractFormControlOptions(selectProps), ...formControlProps }}
 		>
 			<Select
 				{...selectProps}
 				{...field}
+				value={meta.value || ''}
 				onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
-					let val: string | number = e.target.value;
-					if (isValidNumber(val)) {
-						val = Number(val);
-					}
-					helpers.setValue(val);
+					field.onChange(e);
 					selectProps.onChange?.(e);
 				}}
 				onBlur={(e: React.FocusEvent<HTMLSelectElement>) => {

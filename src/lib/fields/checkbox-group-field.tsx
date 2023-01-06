@@ -29,25 +29,27 @@ export type CheckboxGroupFieldProps = {
 const CheckboxGroupField: React.FC<CheckboxGroupFieldProps> = ({
 	name,
     validate,
+    children,
+	label,
+	labelPosition = 'before',
+	labelProps,
+	formControlProps,
+	errorMessageProps,
     size,
     isDisabled,
     colorScheme,
     onChange,
-    onBlur,
-    children,
-	label,
-	labelPosition = 'before',
-	labelCss,
-	formControlCss,
-	errorMessageCss
+    onBlur
 }: CheckboxGroupFieldProps) => {
-	const [field, meta, helpers] = useField<(string | number)[]>({ name, validate });
+	const [field, meta, helpers] = useField<(string | number)[]>({ name, validate, type: 'checkbox' });
 	return (
 		<FormControlField
-			meta={meta}
-			errorMessageCss={errorMessageCss}
-			labelProps={{ label, labelPosition, labelCss }}
-			{...formControlCss}
+			name={field.name}
+            label={label as any}
+			labelProps={labelProps}
+			labelPosition={labelPosition}
+			errorMessageProps={errorMessageProps}
+			{...formControlProps}
 		>
             <CheckboxGroupProvider
                 value={{ field, meta, helpers, size, isDisabled, colorScheme, onChange, onBlur }}

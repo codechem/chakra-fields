@@ -37,7 +37,7 @@ const CheckboxGroupFieldItem: React.FC<CheckboxGroupFieldItemProps> = ({
 			{...checkboxProps}
 			value={value}
             name={field.name}
-            isChecked={meta.value.includes(value)}
+            isChecked={!!meta.value?.includes(value)}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
 				let newValues = meta.value ?? [];
 				if (e.target.checked) {

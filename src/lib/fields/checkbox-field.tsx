@@ -21,18 +21,20 @@ const CheckboxField: React.FC<CheckboxFieldProps> = ({
     children,
 	label,
 	labelPosition = 'before',
-	labelCss,
-	formControlCss,
-	errorMessageCss,
+	labelProps,
+	formControlProps,
+	errorMessageProps,
 	...checkboxProps
 }: CheckboxFieldProps) => {
-	const [field, meta] = useField<boolean>({ name, validate, type: 'checkbox' });
+	const [field] = useField<boolean>({ name, validate, type: 'checkbox' });
 	return (
 		<FormControlField
-			meta={meta}
-			errorMessageCss={errorMessageCss}
-			labelProps={{ label, labelPosition, labelCss }}
-			{...{ ...extractFormControlOptions(checkboxProps), ...formControlCss }}
+			name={field.name}
+			label={label as any}
+			labelProps={labelProps}
+			labelPosition={labelPosition}
+			errorMessageProps={errorMessageProps}
+			{...{ ...extractFormControlOptions(checkboxProps), ...formControlProps }}
 		>
 			<Checkbox
 				{...checkboxProps}

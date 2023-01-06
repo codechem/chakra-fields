@@ -11,10 +11,10 @@ export type ValidatedFieldProps<T = any> = {
 export type FormFieldLabelProps = {
 	label?: React.ReactNode;
 	labelPosition?: 'before' | 'after' | 'floating';
-	labelCss?: FormLabelProps;
+	labelProps?: FormLabelProps;
 };
 
 export type FormFieldProps = {
-	formControlCss?: FormControlProps;
-	errorMessageCss?: FormErrorMessageProps;
+	formControlProps?: FormControlProps;
+	errorMessageProps?: FormErrorMessageProps;
 } & FormFieldLabelProps;

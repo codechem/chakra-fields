@@ -28,23 +28,25 @@ const RadioGroupField: React.FC<RadioGroupFieldProps> = ({
     children,
 	label,
 	labelPosition = 'before',
-	labelCss,
-	formControlCss,
-	errorMessageCss,
+	labelProps,
+	formControlProps,
+	errorMessageProps,
 	...radioGroupProps
 }: RadioGroupFieldProps) => {
 	const [field, meta, helpers] = useField<string>({ name, validate, type: 'radio' });
 	return (
 		<FormControlField
-			meta={meta}
-			errorMessageCss={errorMessageCss}
-			labelProps={{ label, labelPosition, labelCss }}
-			{...{ ...extractFormControlOptions(radioGroupProps), ...formControlCss }}
+			name={field.name}
+            label={label as any}
+			labelProps={labelProps}
+			labelPosition={labelPosition}
+			errorMessageProps={errorMessageProps}
+			{...{ ...extractFormControlOptions(radioGroupProps), ...formControlProps }}
 		>
 			<RadioGroup
                 {...radioGroupProps}
                 name={field.name}
-                value={meta.value}
+                value={meta.value || ''}
 				onChange={(nextValue: string) => {
                     helpers.setValue(nextValue);
 					radioGroupProps.onChange?.(nextValue);

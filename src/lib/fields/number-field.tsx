@@ -3,10 +3,10 @@ import { useField } from 'formik';
 import { NumberInput, NumberInputProps } from '@chakra-ui/react'
 
 import FormControlField from './form-control-field';
-import { extractFormControlOptions, isValidNumber } from '../utils';
+import { extractFormControlOptions } from '../utils';
 import { FormFieldProps, ValidatedFieldProps } from '../types';
 
-export type NumberFieldProps = ValidatedFieldProps<number | undefined> & FormFieldProps & NumberInputProps;
+export type NumberFieldProps = ValidatedFieldProps<string> & FormFieldProps & NumberInputProps;
 
 /**
  * An **input type number** component with a floating label that uses `NumberInput` from `Chakra UI` and handles its state and validation with `formik`.
@@ -28,26 +28,27 @@ const NumberField: React.FC<NumberFieldProps> = ({
     children,
 	label,
 	labelPosition = 'before',
-	labelCss,
-	formControlCss,
-	errorMessageCss,
+	labelProps,
+	formControlProps,
+	errorMessageProps,
 	...numberInputProps
 }: NumberFieldProps) => {
-	const [field, meta, helpers] = useField<number | undefined>({ name, validate, type: 'number' });
-
+	const [field, meta, helpers] = useField<string>({ name, validate, type: 'number' });
 	return (
 		<FormControlField
-			meta={meta}
-			errorMessageCss={errorMessageCss}
-			labelProps={{ label, labelPosition, labelCss }}
-			{...{ ...extractFormControlOptions(numberInputProps), ...formControlCss }}
+			name={field.name}
+			label={label as any}
+			labelProps={labelProps}
+			labelPosition={labelPosition}
+			errorMessageProps={errorMessageProps}
+			{...{ ...extractFormControlOptions(numberInputProps), ...formControlProps }}
 		>
 			<NumberInput
                 {...numberInputProps}
                 name={field.name}
-				defaultValue={meta.value}
+				value={meta.value || ''}
 				onChange={(valueAsString: string, valueAsNumber: number) => {
-					helpers.setValue(isValidNumber(valueAsNumber) ? valueAsNumber : undefined);
+					helpers.setValue(valueAsString);
                     numberInputProps.onChange?.(valueAsString, valueAsNumber);
 				}}
 				onBlur={(e: React.FocusEvent<HTMLInputElement>) => {

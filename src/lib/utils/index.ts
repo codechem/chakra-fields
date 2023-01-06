@@ -21,7 +21,3 @@ export const extractFormControlOptions = (props: any): FormControlOptions => {
         isRequired: props.isRequired
     };
 };
-
-export const isValidNumber = (value: any) => {
-    return !!value && !isNaN(value);
-}
