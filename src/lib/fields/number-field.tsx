@@ -1,10 +1,12 @@
 import React from 'react';
 import { useField } from 'formik';
-import { NumberInput, NumberInputProps } from '@chakra-ui/react'
+import { NumberInputProps } from '@chakra-ui/react'
 
+import NumberInput from '../input/number-input';
 import FormControlField from './form-control-field';
 import { extractFormControlOptions } from '../utils';
 import { FormFieldProps, ValidatedFieldProps } from '../types';
+import { FormikFieldContextProvider } from '../context/formik-field-context';
 
 export type NumberFieldProps = ValidatedFieldProps<string> & FormFieldProps & NumberInputProps;
 
@@ -43,21 +45,11 @@ const NumberField: React.FC<NumberFieldProps> = ({
 			errorMessageProps={errorMessageProps}
 			{...{ ...extractFormControlOptions(numberInputProps), ...formControlProps }}
 		>
-			<NumberInput
-                {...numberInputProps}
-                name={field.name}
-				value={meta.value || ''}
-				onChange={(valueAsString: string, valueAsNumber: number) => {
-					helpers.setValue(valueAsString);
-                    numberInputProps.onChange?.(valueAsString, valueAsNumber);
-				}}
-				onBlur={(e: React.FocusEvent<HTMLInputElement>) => {
-					field.onBlur(e);
-					numberInputProps.onBlur?.(e);
-				}}
-			>
-                {children}
-			</NumberInput>
+			<FormikFieldContextProvider value={{ field, meta, helpers }}>
+				<NumberInput {...numberInputProps}>
+					{children}
+				</NumberInput>
+			</FormikFieldContextProvider>
 		</FormControlField>
 	);
 };

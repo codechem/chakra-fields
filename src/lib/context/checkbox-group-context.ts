@@ -1,16 +1,14 @@
 import { createContext, useContext } from "react";
-import { FieldHelperProps, FieldInputProps, FieldMetaProps } from "formik";
+
+import { FormikFieldContext } from "../types";
 
 type Context = {
-    field: FieldInputProps<(string | number)[]>;
-    meta: FieldMetaProps<(string | number)[]>;
-    helpers: FieldHelperProps<(string | number)[]>;
     size?: "sm" | "md" | "lg";
     isDisabled?: boolean;
     colorScheme?: (string & {}) | "blue" | "cyan" | "gray" | "green" | "orange" | "pink" | "purple" | "red" | "teal" | "yellow" | "whiteAlpha" | "blackAlpha" | "linkedin" | "facebook" | "messenger" | "whatsapp" | "twitter" | "telegram";
     onChange?: (values: (string | number)[]) => void;
     onBlur?: React.FocusEventHandler<HTMLInputElement>;
-};
+} & FormikFieldContext<(string | number)[]>;
 
 const CheckboxGroupContext = createContext<Context | null>(null);
 export const CheckboxGroupProvider = CheckboxGroupContext.Provider;

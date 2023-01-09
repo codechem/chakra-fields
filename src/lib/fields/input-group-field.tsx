@@ -1,19 +1,15 @@
 import React from 'react';
 import { useField } from 'formik';
+import { FormControlOptions, InputGroup, InputGroupProps, NumberInputProps } from '@chakra-ui/react';
 
-import Checkbox from './../input/checkbox';
+import Input from './../input/input';
+import NumberInput from './../input/number-input';
 import FormControlField from './form-control-field';
+import { extractFormControlOptions } from '../utils';
 import { FormFieldProps, ValidatedFieldProps } from '../types';
-import { CheckboxGroupProvider } from '../context/checkbox-group-context';
+import { FormikFieldContextProvider } from '../context/formik-field-context';
 
-export type CheckboxGroupFieldProps = {
-    children?: React.ReactNode;
-    size?: "sm" | "md" | "lg";
-    isDisabled?: boolean;
-    colorScheme?: (string & {}) | "blue" | "cyan" | "gray" | "green" | "orange" | "pink" | "purple" | "red" | "teal" | "yellow" | "whiteAlpha" | "blackAlpha" | "linkedin" | "facebook" | "messenger" | "whatsapp" | "twitter" | "telegram";
-    onChange?: (values: (string | number)[]) => void;
-    onBlur?: React.FocusEventHandler<HTMLInputElement>;
-} & ValidatedFieldProps<(string | number)[]> & FormFieldProps;
+export type InputGroupFieldProps = ValidatedFieldProps<string> & FormFieldProps & FormControlOptions & InputGroupProps;
 
 /**
  * A **select** type component with a floating label that uses `Select` from `Chakra UI` and handles its state and validation with `formik`.
@@ -26,7 +22,7 @@ export type CheckboxGroupFieldProps = {
  * @param {object} props.labelCss Optional parameter. Custom css for the floating label.
  * @callback props.validate Optional parameter. Function that will be used by `formik` to validate the input from this field.
  */
-const CheckboxGroupField: React.FC<CheckboxGroupFieldProps> = ({
+const InputGroupField: React.FC<InputGroupFieldProps> = ({
 	name,
     validate,
     children,
@@ -35,13 +31,9 @@ const CheckboxGroupField: React.FC<CheckboxGroupFieldProps> = ({
 	labelProps,
 	formControlProps,
 	errorMessageProps,
-    size,
-    isDisabled,
-    colorScheme,
-    onChange,
-    onBlur
-}: CheckboxGroupFieldProps) => {
-	const [field, meta, helpers] = useField<(string | number)[]>({ name, validate, type: 'checkbox' });
+    ...inputGroupProps
+}: InputGroupFieldProps) => {
+	const [field, meta, helpers] = useField<string>({ name, validate, type: 'text' });
 	return (
 		<FormControlField
 			name={field.name}
@@ -49,16 +41,19 @@ const CheckboxGroupField: React.FC<CheckboxGroupFieldProps> = ({
 			labelProps={labelProps}
 			labelPosition={labelPosition}
 			errorMessageProps={errorMessageProps}
-			{...formControlProps}
+			{...{ ...extractFormControlOptions(inputGroupProps), ...formControlProps }}
 		>
-            <CheckboxGroupProvider
-                value={{ field, meta, helpers, size, isDisabled, colorScheme, onChange, onBlur }}
-            >
-                {children}
-            </CheckboxGroupProvider>
+			<FormikFieldContextProvider value={{ field, meta, helpers }}>
+				<InputGroup {...inputGroupProps}>
+					{children}
+				</InputGroup>
+			</FormikFieldContextProvider>
 		</FormControlField>
 	);
 };
 
-export default Object.assign(CheckboxGroupField, { Item: Checkbox });
+const FullWidthNumberInput = (props: NumberInputProps) => {
+    return <NumberInput w="100%" {...props}/>;
+}
 
+export default Object.assign(InputGroupField, { Input, NumberInput: FullWidthNumberInput });

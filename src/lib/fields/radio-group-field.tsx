@@ -1,12 +1,12 @@
 import React from 'react';
 import { useField } from 'formik';
-import { RadioGroup, RadioGroupProps } from '@chakra-ui/react'
+import { FormControlOptions, Radio, RadioGroup, RadioGroupProps } from '@chakra-ui/react'
 
 import FormControlField from './form-control-field';
 import { extractFormControlOptions } from '../utils';
 import { FormFieldProps, ValidatedFieldProps } from '../types';
 
-export type RadioGroupFieldProps = ValidatedFieldProps<string> & FormFieldProps & RadioGroupProps;
+export type RadioGroupFieldProps = ValidatedFieldProps<string> & FormFieldProps & FormControlOptions & RadioGroupProps;
 
 /**
  * An **input type number** component with a floating label that uses `NumberInput` from `Chakra UI` and handles its state and validation with `formik`.
@@ -62,4 +62,4 @@ const RadioGroupField: React.FC<RadioGroupFieldProps> = ({
 	);
 };
 
-export default RadioGroupField;
+export default Object.assign(RadioGroupField, { Item: Radio });

@@ -1,10 +1,12 @@
 import React from 'react';
 import { useField } from 'formik';
-import { Input, InputProps } from '@chakra-ui/react';
+import { InputProps } from '@chakra-ui/react';
 
+import Input from '../input/input';
 import FormControlField from './form-control-field';
 import { extractFormControlOptions } from '../utils';
 import { FormFieldProps, ValidatedFieldProps } from '../types';
+import { FormikFieldContextProvider } from '../context/formik-field-context';
 
 export type TextFieldProps = ValidatedFieldProps<string> & FormFieldProps & InputProps;
 
@@ -27,7 +29,7 @@ const TextField: React.FC<TextFieldProps> = ({
 	errorMessageProps,
 	...inputProps
 }: TextFieldProps) => {
-	const [field, meta] = useField<string>({ name, validate, type: 'text' });
+	const [field, meta, helpers] = useField<string>({ name, validate, type: 'text' });
 	return (
 		<FormControlField
 			name={field.name}
@@ -37,19 +39,9 @@ const TextField: React.FC<TextFieldProps> = ({
 			errorMessageProps={errorMessageProps}
 			{...{ ...extractFormControlOptions(inputProps), ...formControlProps }}
 		>
-			<Input
-				{...inputProps}
-				{...field}
-				value={meta.value || ''}
-				onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-					field.onChange(e);
-					inputProps.onChange?.(e);
-				}}
-				onBlur={(e: React.FocusEvent<HTMLInputElement>) => {
-					field.onBlur(e);
-					inputProps.onBlur?.(e);
-				}}
-			/>
+			<FormikFieldContextProvider value={{ field, meta, helpers }}>
+				<Input {...inputProps} />
+			</FormikFieldContextProvider>
 		</FormControlField>
 	);
 };
