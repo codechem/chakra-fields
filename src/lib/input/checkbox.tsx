@@ -7,13 +7,6 @@ export type CheckboxProps = {
 	value: number | string;
 } & ChakraCheckboxProps;
 
-/**
- * A **checkbox** type component that uses `Checkbox` from `Chakra UI` and handles state with `formik`.
- * This component can be used a single checkbox without value, i.e. true/false and can also be a part of a `CheckboxGroupField` which would allow multiple values to be checked as part of the group, hence a `value` would be needed.
- * @param {CheckboxProps} props props of the component.
- * @param {string} props.name Required parameter. Needed for the `formik` state. Must be unique inside of its enclosing `formik` context.
- * @param {string} props.value Optional parameter. Must be provided if the checkbox is part of a `CheckboxGroupField`.
- */
 const Checkbox: React.FC<CheckboxProps> = ({
     value,
     children,

@@ -12,15 +12,24 @@ import { FormikFieldContextProvider } from '../context/formik-field-context';
 export type InputGroupFieldProps = ValidatedFieldProps<string> & FormFieldProps & FormControlOptions & InputGroupProps;
 
 /**
- * A **select** type component with a floating label that uses `Select` from `Chakra UI` and handles its state and validation with `formik`.
- * Also, the `Select` component is wrapped inside of a `FormControl` component from `Chakra UI` which handles the displaying of the label and error messages from `formik`.
+ * **Input Group** type input component that wraps `Input`/`NumberInput` components and other additional elements.
+ * Usually this group wraps one `Input`/`NumberInput` and one or two of the following elements: `InputRight[Addon/Element]` or `InputLeft[Addon/Element]`.
+ * The `Input Group` is wrapped with the `FormControlField` component that handles the displaying of error messages and labels.
  *
- * **WARNING**: values like '0', '1' which are strings, will be cast to a number, i.e. 0, 1. Meaning that each string that can be parsed into a number, will be parsed into a number automatically and it will be saved into the `formik` state as a number.
- * @param {SelectFieldProps} props props of the component.
+ * Use this component if you intend to have `InputRight[Addon/Element]` or `InputLeft[Addon/Element]`. Otherwise use `TextField` or `NumberField`.
+ * 
+ * NOTE: As an `Input` component use the `InputGroupField.Input` component, not the native `Input` from `Chakra UI`.
+ * NOTE: As a `NumberInput` component use the `InputGroupField.NumberInput` component, not the native `NumberInput` from `Chakra UI`.
+ * 
+ * @param {InputGroupFieldProps} props - props of the component.
  * @param {string} props.name Required parameter. Needed for the `formik` state. Must be unique inside of its enclosing `formik` context.
- * @param {string} props.floatingLabelText Required parameter. The text of the floating label.
- * @param {object} props.labelCss Optional parameter. Custom css for the floating label.
- * @callback props.validate Optional parameter. Function that will be used by `formik` to validate the input from this field.
+ * @param {FormikValidator<string>} [props.validate] - `Formik` validation function for this field. See [Formik docs](https://formik.org/docs/api/field#validate)
+ * @param {React.ReactNode} [props.label] - The label of the field. It is wrapped into the `FormLabel` from `Chakra UI`.
+ * @param {string} [props.labelPosition="before"] - The position of the label: "before" (default), "after" or "floating" (not available for this field).
+ * @param {FormLabelProps} [props.labelProps] - Custom props for the label component (`FormLabel`). See [Chakra UI docs](https://chakra-ui.com/docs/components/form-control).
+ * @param {FormControlProps} [props.formControlProps] - Custom props for the form control component (`FormControl`). See [Chakra UI docs](https://chakra-ui.com/docs/components/form-control).
+ * @param {FormErrorMessageProps} [props.errorMessageProps] - Custom props for the error message component (`FormErrorMessage`). See [Chakra UI docs](https://chakra-ui.com/docs/components/form-control).
+ * @see See [Chakra UI Input Group](https://chakra-ui.com/docs/components/input#left-and-right-addons)
  */
 const InputGroupField: React.FC<InputGroupFieldProps> = ({
 	name,
@@ -54,6 +63,6 @@ const InputGroupField: React.FC<InputGroupFieldProps> = ({
 
 const FullWidthNumberInput = (props: NumberInputProps) => {
     return <NumberInput w="100%" {...props}/>;
-}
+};
 
 export default Object.assign(InputGroupField, { Input, NumberInput: FullWidthNumberInput });

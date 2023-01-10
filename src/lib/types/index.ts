@@ -6,8 +6,10 @@ export type FieldProps = {
 	name: string;
 };
 
-export type ValidatedFieldProps<T = any> = {
-	validate?: (value: T) => undefined | string | Promise<any>;
+export type FormikValidator<T> = (value: T) => undefined | string | Promise<any>;
+
+export type ValidatedFieldProps<T> = {
+	validate?: FormikValidator<T>;
 } & FieldProps;
 
 export type FormFieldLabelProps = {

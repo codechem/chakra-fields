@@ -11,13 +11,18 @@ import { FormikFieldContextProvider } from '../context/formik-field-context';
 export type TextFieldProps = ValidatedFieldProps<string> & FormFieldProps & InputProps;
 
 /**
- * An **input** type **text** component with a label that uses `Input` from `Chakra UI` and handles its state and validation with `formik`.
- * Also, the `Input` component is wrapped inside of a `FormControl` component from `Chakra UI` which handles the displaying of the label and error messages from `formik`.
- * @param {TextFieldProps} props props of the component.
+ * **Text** type input component that uses `Input` from `Chakra UI` and handles its state with `formik`.
+ * The `Input` is wrapped with the `FormControlField` component that handles the displaying of error messages and labels.
+ * 
+ * @param {TextFieldProps} props - props of the component.
  * @param {string} props.name Required parameter. Needed for the `formik` state. Must be unique inside of its enclosing `formik` context.
- * @param {string} props.label Optional parameter. The text of the label.
- * @param {object} props.labelCss Optional parameter. Custom css for the label.
- * @callback props.validate Optional parameter. Function that will be used by `formik` to validate the input from this field.
+ * @param {FormikValidator<string>} [props.validate] - `Formik` validation function for this field. See [Formik docs](https://formik.org/docs/api/field#validate)
+ * @param {React.ReactNode} [props.label] - The label of the field. It is wrapped into the `FormLabel` from `Chakra UI`.
+ * @param {string} [props.labelPosition="before"] - The position of the label: "before" (default), "after" or "floating" (not available for this field).
+ * @param {FormLabelProps} [props.labelProps] - Custom props for the label component (`FormLabel`). See [Chakra UI docs](https://chakra-ui.com/docs/components/form-control).
+ * @param {FormControlProps} [props.formControlProps] - Custom props for the form control component (`FormControl`). See [Chakra UI docs](https://chakra-ui.com/docs/components/form-control).
+ * @param {FormErrorMessageProps} [props.errorMessageProps] - Custom props for the error message component (`FormErrorMessage`). See [Chakra UI docs](https://chakra-ui.com/docs/components/form-control).
+ * @see See [Chakra UI Input](https://chakra-ui.com/docs/components/input)
  */
 const TextField: React.FC<TextFieldProps> = ({
 	name,

@@ -11,12 +11,12 @@ type Context = {
 } & FormikFieldContext<(string | number)[]>;
 
 const CheckboxGroupContext = createContext<Context | null>(null);
-export const CheckboxGroupProvider = CheckboxGroupContext.Provider;
+export const CheckboxGroupContextProvider = CheckboxGroupContext.Provider;
 
 export function useCheckboxGroupContext() {
     const context = useContext(CheckboxGroupContext);
     if (!context) {
-        throw new Error("Must be used in scope of a CheckboxGroupProvider");
+        throw new Error("Must be used in scope of a CheckboxGroupContextProvider");
     }
     return context;
 };
