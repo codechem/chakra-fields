@@ -1,5 +1,6 @@
 import React from 'react';
 import { Checkbox as ChakraCheckbox, CheckboxProps as ChakraCheckboxProps } from '@chakra-ui/react';
+import { v4 as uuidv4, v4 } from 'uuid';
 
 import { useCheckboxGroupContext } from '../context/checkbox-group-context';
 
@@ -28,6 +29,7 @@ const Checkbox: React.FC<CheckboxProps> = ({
 			isDisabled={isDisabled}
 			colorScheme={colorScheme}
 			{...checkboxProps}
+			id={uuidv4()}
 			value={value}
             name={field.name}
             isChecked={!!meta.value?.includes(value)}
