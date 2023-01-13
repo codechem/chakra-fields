@@ -13,8 +13,6 @@ import { Button,
     SimpleGrid,
     VStack
 } from '@chakra-ui/react';
-
-import { FormKey, Values, calculateAge } from '../App';
 import {
     CheckboxField,
     CheckboxGroupField,
@@ -24,7 +22,10 @@ import {
     TextField,
     TextareaField,
     SelectField
-} from '../lib';
+} from 'chakra-fields';
+
+import { calculateAge } from './utils';
+import { FormKey, Values } from './types';
 
 const ChakraFieldsExample = () => {
     const formikContext = useFormikContext<Values>();

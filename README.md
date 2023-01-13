@@ -176,7 +176,7 @@ import { InputGroupField } from 'chakra-fields';
 <InputGroupField name="telephone" label="Telephone number">
     <InputLeftAddon children='+234'/>
     <InputGroupField.Input type='tel'/> {/* `InputGroupField.Input` must be used, not `Input` from `Chakra UI` */}
-</<InputGroupField>
+</InputGroupField>
 ```
 
 ### CheckboxGroupField
@@ -193,6 +193,7 @@ import { CheckboxGroupField } from 'chakra-fields';
     }}
 >
     <HStack>
+        {/* `CheckboxGroupField.Item` must be used, not `Checkbox` from `Chakra UI` */}
         <CheckboxGroupField.Item value={1}>Pepperoni</CheckboxGroupField.Item>
         <CheckboxGroupField.Item value={2}>Pineapple</CheckboxGroupField.Item>
         <CheckboxGroupField.Item value={3}>More cheese</CheckboxGroupField.Item>
@@ -227,4 +228,4 @@ See also the `formik` docs for [`useFormikContext`](https://formik.org/docs/api/
 - To see the examples, run `npm start`. This will start a React app that will be hosted on port `3000`.
 
 ## Contributors
-- Dejan Slamkov, [Linked In](https://linkedin.com/in/dejan-slamkov)
+- Dejan Slamkov, [LinkedIn](https://linkedin.com/in/dejan-slamkov)

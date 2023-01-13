@@ -2,38 +2,9 @@ import React from 'react';
 import { Form, Formik } from 'formik';
 import { SimpleGrid } from '@chakra-ui/react';
 
-import NativeChakraExample from './examples/native-chakra-example';
-import ChakraFieldsExample from './examples/chakra-fields-example';
-
-export enum FormKey {
-	FULL_NAME = 'fullName',
-	USERNAME = 'username',
-	AGE = 'age',
-	DOB = 'dob',
-	PASSWORD = 'password',
-	CONFIRM_PASSWORD = 'confirmPassword',
-	DISABLE_FIELD = 'disableField',
-	YEAR_STUDIES = 'yearStudies',
-	TUITION_AMOUNT = 'tuitionAmount',
-	COMMENTS = 'comments',
-	TERMS = 'terms',
-	LANGUAGES = 'languages'
-};
-
-export type Values = {
-	[FormKey.FULL_NAME]: string;
-	[FormKey.USERNAME]: string;
-	[FormKey.AGE]: string;
-	[FormKey.DOB]: string;
-	[FormKey.PASSWORD]: string;
-	[FormKey.CONFIRM_PASSWORD]: string;
-	[FormKey.DISABLE_FIELD]: string;
-	[FormKey.YEAR_STUDIES]: string;
-	[FormKey.TUITION_AMOUNT]: string;
-	[FormKey.COMMENTS]: string;
-	[FormKey.TERMS]: string;
-	[FormKey.LANGUAGES]: number[];
-};
+import { Values } from './types';
+import NativeChakraExample from './native-chakra-example';
+import ChakraFieldsExample from './chakra-fields-example';
 
 const App = () => {
 	return (
@@ -69,10 +40,6 @@ const App = () => {
 			</Formik>
 		</SimpleGrid>
 	);
-};
-
-export function calculateAge(dob: string) {
-    return Math.floor((Date.now() - new Date(dob).getTime()) / 3.15576e+10).toString();
 };
 
 export default App;
