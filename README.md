@@ -12,6 +12,65 @@ of the components is **100% extensible**. The package does not add additional st
 - Reusability
 - Floating label
 
+## Motivation
+
+The main motivation behind this package was to minimize the repetition that happens when working with forms with `Chakra UI` and the usage of `FormControl`. That, together with the repetition of `useField` when working with `formik` brought this project to life. Example:
+
+Before `chakra-fields`:
+```tsx
+import {
+    FormControl,
+    FormErrorMessage,
+    FormLabel,
+    NumberInput,
+    NumberInputField
+} from '@chakra-ui/react';
+import { useField } from 'formik';
+
+const [field, meta, helpers] = useField<string>({
+    name: 'age',
+    validate: (value: string) => {
+        return Number(value) < 18 ? 'Must be above 18' : undefined;
+    }
+});
+
+<FormControl isRequired={true} isInvalid={!!meta.error && meta.touched}>
+    <FormLabel display="inline" w="20%">Age: </FormLabel>
+    <NumberInput
+        {...field}
+        w="80%"
+        min={0}
+        onChange={(valueAsString: string) => {
+            helpers.setValue(valueAsString);
+        }}
+    >
+        <NumberInputField/>
+    </NumberInput>
+    <FormErrorMessage>{meta.error}</FormErrorMessage>
+</FormControl>
+```
+Looks a little bit too much doesn't it? Let's fix that:
+```tsx
+import { NumberInputField } from '@chakra-ui/react';
+import { NumberField } from 'chakra-fields';
+
+<NumberField
+    name="age"
+    w="80%"
+    min={0}
+    isRequired={true}
+    label="Age: "
+    labelProps={{ display: 'inline', w: '20%' }}
+    validate={(value: string) => {
+        return Number(value) < 18 ? 'Must be above 18' : undefined;
+    }}
+>
+    <NumberInputField/>
+</NumberField>
+```
+
+Much better! Everything in one place where it belongs. No more multiple lines of `useField` and renaming the `field`, `meta` and `helpers` variables. As you can see, even if the signatures of `onChange` between `formik` and `Chakra UI` don't match, as was the case for `NumberInput` where you have to manually set the value and you kinda loose the purpose of `formik`, with `chakra-fields` you don't have to worry about that because it's already handled. No more painful repetition of `FormControl`, `FormLabel`, `FormErrorMessage` and setting `isInvalid` flag with the same line of code to each input -- now that comes automatically with the `chakra-fields` components.
+
 ## Installing chakra-fields
 
 ```sh
@@ -22,7 +81,7 @@ $ npm i chakra-fields
 
 The following components wrap the standard `Chakra UI` form inputs with the `FormControl` component, while handling state, validation and error messages with `formik`. First see [`FormControlField`](src/lib/fields/form-control-field.tsx).
 
-- [`TextField`](src/lib/fields/text-field.tsx) -> wrapper around `Chakra UI`'s `Input` component. Used usually for `text`, `password`, `date`, `datetime-local` input types. The `formik` state holds a `string` value for this field. For styling you can set all style props that you would set on a `Input` component. See also [Chakra UI Input docs](https://chakra-ui.com/docs/components/input).
+- [`TextField`](src/lib/fields/text-field.tsx) -> wrapper around `Chakra UI`'s `Input` component. Used usually for `text`, `password`, `email`, `date`, `datetime-local` input types. The `formik` state holds a `string` value for this field. For styling you can set all style props that you would set on a `Input` component. See also [Chakra UI Input docs](https://chakra-ui.com/docs/components/input).
 - [`TextareaField`](src/lib/fields/textarea-field.tsx) -> wrapper around `Chakra UI`'s `Textarea` component. The `formik` state holds a `string` value for this field. For styling you can set all style props that you would set on a `Textarea` component. See also [Chakra UI Textarea docs](https://chakra-ui.com/docs/components/textarea).
 - [`NumberField`](src/lib/fields/number-field.tsx) ->  wrapper around `Chakra UI`'s `NumberInput` component. The `formik` state holds a `string` value for this field. For styling you can set all style props that you would set on a `NumberInput` component. See also [Chakra UI NumberInput docs](https://chakra-ui.com/docs/components/number-input).
 - [`SelectField`](src/lib/fields/select-field.tsx) -> wrapper around `Chakra UI`'s `Select` component. The `formik` state holds a `string` value for this field. For styling you can set all style props that you would set on a `Select` component. See also [Chakra UI Select docs](https://chakra-ui.com/docs/components/select).
@@ -31,11 +90,24 @@ The following components wrap the standard `Chakra UI` form inputs with the `For
 - [`InputGroupField`](src/lib/fields/input-group-field.tsx) -> wrapper around `Chakra UI`'s `InputGroup` component. The group is composed from one input element (`Input`/`NumberInput`) and one or multiple right/left addons/elements. See [Chakra UI docs](https://chakra-ui.com/docs/components/input#left-and-right-addons). The difference here is that instead of using the native `Chakra UI` input element as part of the group, the `InputGroupField.Input` or `InputGroupField.NumberInput` **must** be used instead. The `formik` state holds a `string` value for this field. For styling you can set all style props that you would set on a `InputGroup` component. See also [Chakra UI InputGroup docs](https://chakra-ui.com/docs/components/input).
 - [`CheckboxGroupField`](src/lib/fields/checkbox-group-field.tsx) -> this is actually a new component and does not wrap any existing `Chakra UI` component, but it behaves similarly to the `CheckboxGroup` component. This group consists of multiple choice checkboxes and the component to be used for them **must** be `CheckboxGroupField.Item`. The `formik` state holds a `(string | number)[]` value for this field. For styling you can set all style props that you would set on a `CheckboxGroup` component. See also [Chakra UI CheckboxGroup docs](https://chakra-ui.com/docs/components/checkbox).
 
+### Props
+
+The following props can be used on **all components**:
+- `name` - **required** prop and it should be unique in its enclosing `Formik Context`
+- `isRequired`, `isReadOnly`, `isDisabled` - `FormControlOptions` that will be forwarded to the `FormControl`. If we set `isInvalid` it will have no effect because that prop is set automatically from the `formik` validation.
+- `validate` - validation function that `formik` will use to validate the field
+- `label` - contents of the `FormLabel` for the field
+- `labelProps` - custom props for the `FormLabel` for fine grained styling
+- `labelPosition` - where the label would be displayed: `before`, `after` or `floating`. By default is set to `before` and the label is displayed in the row before the input field/group. `floating` is not available for groups and `CheckboxField`.
+- `errorMessageProps` - custom props for the `FormErrorMessage` for fine grained styling
+
+**_NOTE_**: all style props that we set to the components will be forwarded to their respective `Chakra UI` component that it wraps. Example: the style props we set to `SelectField` will be forwarded to `Select` from `Chakra UI`, `TextField` to `Input`, `NumberField` to `NumberInput`, etc.
+
 ## Usage
 
 First there is a need of a `Formik Context` that will wrap all of the `chakra-fields` components.
 
-NOTE: Internally the components use `useField` that expects to be provided a `Formik Context` and would fail if not provided.
+_NOTE_: Internally the components use `useField` that expects to be provided a `Formik Context` and would fail if not provided.
 
 ```ts
 import { Form, Formik } from 'formik';
@@ -47,15 +119,6 @@ import { Form, Formik } from 'formik';
     <Form>{/* chakra-fields components go here */}</Form>
 </Formik>
 ```
-
-Before we see examples of usages of the components, we need to talk about their props:
-- `name` is a required prop of each component and it should be unique in its enclosing `Formik Context`
-- all style props that we set to the components will be forwarded to their respective `Chakra UI` component that it wraps. Example: the style props we set to `SelectField` will be forwarded to `Select` from `Chakra UI`, `TextField` to `Input`, `NumberField` to `NumberInput`, etc.
-- `FormControlOptions` (`isRequired`, `isReadOnly`, `isDisabled`) that we set to the to the components will be forwarded to its `FormControl`. If we set `isInvalid` it will have no effect because that field is set from the `formik` validation.
-- Each component can take a validation function through the props (`validate`) which `formik` will use to validate that field.
-- We can set the label through the `label` prop which will be forwarded to the `FormLabel` inside the `FormControl`. If we want some fine grained styling, we can set custom props to the `FormLabel` through the `labelProps` prop.
-- If we want some fine grained styling for the error message (`FormErrorMessage`), we can set some custom props through the `errorMessageProps` prop.
-- There is one more prop: `labelPosition` which by default is set to `before` and it displays the label in the row above the input element. This prop also can have the value: `after` and `floating`. _NOTE_: `labelPosition="floating"` is not available for groups and the `CheckboxField` component.
 
 ### TextField
 ```tsx
