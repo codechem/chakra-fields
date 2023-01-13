@@ -14,15 +14,17 @@ import { Button,
     VStack
 } from '@chakra-ui/react';
 
-import { FormKey, Values, calculateAge } from './App';
-import TextField from './lib/fields/text-field';
-import NumberField from './lib/fields/number-field';
-import RadioGroupField from './lib/fields/radio-group-field';
-import SelectField from './lib/fields/select-field';
-import InputGroupField from './lib/fields/input-group-field';
-import TextareaField from './lib/fields/textarea-field';
-import CheckboxField from './lib/fields/checkbox-field';
-import CheckboxGroupField from './lib/fields/checkbox-group-field';
+import { FormKey, Values, calculateAge } from '../App';
+import {
+    CheckboxField,
+    CheckboxGroupField,
+    InputGroupField,
+    NumberField,
+    RadioGroupField,
+    TextField,
+    TextareaField,
+    SelectField
+} from '../lib';
 
 const ChakraFieldsExample = () => {
     const formikContext = useFormikContext<Values>();

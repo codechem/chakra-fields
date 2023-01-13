@@ -2,8 +2,8 @@ import React from 'react';
 import { Form, Formik } from 'formik';
 import { SimpleGrid } from '@chakra-ui/react';
 
-import NativeChakraExample from './native-chakra-example';
-import ChakraFieldsExample from './chakra-fields-example';
+import NativeChakraExample from './examples/native-chakra-example';
+import ChakraFieldsExample from './examples/chakra-fields-example';
 
 export enum FormKey {
 	FULL_NAME = 'fullName',
@@ -55,7 +55,7 @@ const App = () => {
 				<Form><NativeChakraExample/></Form>
 			</Formik>
 			<Formik
-				initialValues={{ languages: [] as number[] } as Values} // DRAWBACK: can't handle undefined well
+				initialValues={{ languages: [] as number[] } as Values}
 				onSubmit={(values: Values) => alert("With Chakra Fields:\n" + JSON.stringify(values, null, 2))}
 				validate={(values) => {
 					const errors = {} as any;

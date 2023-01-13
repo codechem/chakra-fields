@@ -1,46 +1,230 @@
-# Getting Started with Create React App
+# chakra-fields
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Simple package that makes working with `Chakra UI` and `formik` together -- easier. This package uses
+UI form components from `Chakra UI` and turns them into controlled components using `formik` state. The styling
+of the components is **100% extensible**. The package does not add additional style on top of the `Chakra UI` styling.
 
-## Available Scripts
+## Key features
+- Cleaner code
+- 100% extensible styling
+- Some caveats from using `Chakra UI` components and `formik` together are handled
+- Possibility to add `formik` validation functions as props to the form components
+- Reusability
+- Floating label
 
-In the project directory, you can run:
+## Installing chakra-fields
 
-### `npm start`
+```sh
+$ npm i chakra-fields
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Available Components
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+The following components wrap the standard `Chakra UI` form inputs with the `FormControl` component, while handling state, validation and error messages with `formik`. First see [`FormControlField`](src/lib/fields/form-control-field.tsx).
 
-### `npm test`
+- [`TextField`](src/lib/fields/text-field.tsx) -> wrapper around `Chakra UI`'s `Input` component. Used usually for `text`, `password`, `date`, `datetime-local` input types. The `formik` state holds a `string` value for this field. For styling you can set all style props that you would set on a `Input` component. See also [Chakra UI Input docs](https://chakra-ui.com/docs/components/input).
+- [`TextareaField`](src/lib/fields/textarea-field.tsx) -> wrapper around `Chakra UI`'s `Textarea` component. The `formik` state holds a `string` value for this field. For styling you can set all style props that you would set on a `Textarea` component. See also [Chakra UI Textarea docs](https://chakra-ui.com/docs/components/textarea).
+- [`NumberField`](src/lib/fields/number-field.tsx) ->  wrapper around `Chakra UI`'s `NumberInput` component. The `formik` state holds a `string` value for this field. For styling you can set all style props that you would set on a `NumberInput` component. See also [Chakra UI NumberInput docs](https://chakra-ui.com/docs/components/number-input).
+- [`SelectField`](src/lib/fields/select-field.tsx) -> wrapper around `Chakra UI`'s `Select` component. The `formik` state holds a `string` value for this field. For styling you can set all style props that you would set on a `Select` component. See also [Chakra UI Select docs](https://chakra-ui.com/docs/components/select).
+- [`CheckboxField`](src/lib/fields/checkbox-field.tsx) -> wrapper around `Chakra UI`'s `Checkbox` component. This component should be used as a single checkbox component. The `formik` state holds a `boolean` value for this field. For styling you can set all style props that you would set on a `Checkbox` component. See also [Chakra UI Checkbox docs](https://chakra-ui.com/docs/components/checkbox).
+- [`RadioGroupField`](src/lib/fields/radio-group-field.tsx) -> wrapper around `Chakra UI`'s `RadioGroup` component. The group is composed of multiple radio buttons. Use `Radio` from `Chakra UI` or `RadioGroupField.Item` (alias to `Radio`) as components for the radio buttons. The `formik` state holds a `string` value for this field. For styling you can set all style props that you would set on a `RadioGroup` component. See also [Chakra UI RadioGroup docs](https://chakra-ui.com/docs/components/radio).
+- [`InputGroupField`](src/lib/fields/input-group-field.tsx) -> wrapper around `Chakra UI`'s `InputGroup` component. The group is composed from one input element (`Input`/`NumberInput`) and one or multiple right/left addons/elements. See [Chakra UI docs](https://chakra-ui.com/docs/components/input#left-and-right-addons). The difference here is that instead of using the native `Chakra UI` input element as part of the group, the `InputGroupField.Input` or `InputGroupField.NumberInput` **must** be used instead. The `formik` state holds a `string` value for this field. For styling you can set all style props that you would set on a `InputGroup` component. See also [Chakra UI InputGroup docs](https://chakra-ui.com/docs/components/input).
+- [`CheckboxGroupField`](src/lib/fields/checkbox-group-field.tsx) -> this is actually a new component and does not wrap any existing `Chakra UI` component, but it behaves similarly to the `CheckboxGroup` component. This group consists of multiple choice checkboxes and the component to be used for them **must** be `CheckboxGroupField.Item`. The `formik` state holds a `(string | number)[]` value for this field. For styling you can set all style props that you would set on a `CheckboxGroup` component. See also [Chakra UI CheckboxGroup docs](https://chakra-ui.com/docs/components/checkbox).
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Usage
 
-### `npm run build`
+First there is a need of a `Formik Context` that will wrap all of the `chakra-fields` components.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+NOTE: Internally the components use `useField` that expects to be provided a `Formik Context` and would fail if not provided.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```ts
+import { Form, Formik } from 'formik';
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+<Formik
+    initialValues={{} as Values}
+    onSubmit={(values: Values) => {}}
+>
+    <Form>{/* chakra-fields components go here */}</Form>
+</Formik>
+```
 
-### `npm run eject`
+Before we see examples of usages of the components, we need to talk about their props:
+- `name` is a required prop of each component and it should be unique in its enclosing `Formik Context`
+- all style props that we set to the components will be forwarded to their respective `Chakra UI` component that it wraps. Example: the style props we set to `SelectField` will be forwarded to `Select` from `Chakra UI`, `TextField` to `Input`, `NumberField` to `NumberInput`, etc.
+- `FormControlOptions` (`isRequired`, `isReadOnly`, `isDisabled`) that we set to the to the components will be forwarded to its `FormControl`. If we set `isInvalid` it will have no effect because that field is set from the `formik` validation.
+- Each component can take a validation function through the props (`validate`) which `formik` will use to validate that field.
+- We can set the label through the `label` prop which will be forwarded to the `FormLabel` inside the `FormControl`. If we want some fine grained styling, we can set custom props to the `FormLabel` through the `labelProps` prop.
+- If we want some fine grained styling for the error message (`FormErrorMessage`), we can set some custom props through the `errorMessageProps` prop.
+- There is one more prop: `labelPosition` which by default is set to `before` and it displays the label in the row above the input element. This prop also can have the value: `after` and `floating`. _NOTE_: `labelPosition="floating"` is not available for groups and the `CheckboxField` component.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### TextField
+```tsx
+import { TextField } from 'chakra-fields';
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+<TextField name="username" label="Username" labelPosition="floating"/>
+<TextField name="password" type="password" label="Password" labelPosition="after"/>
+<TextField
+    name="dob"
+    type="date"
+    label="Date Of Birth"
+    min="1998-11-07" // style props are forwarded to the `Input` component
+    w="80%" // style props are forwarded to the `Input` component
+    variant="outline" // style props are forwarded to the `Input` component
+/>
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### TextareaField
+```tsx
+import { TextareaField } from 'chakra-fields';
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+<TextareaField
+    name="comment"
+    isRequired={true} // field is required (forwarded to `FormControl` as well)
+    w="80%"
+    validate={(value: string) => {
+        return value.length < 30 ? 'Comment too short' : undefined;
+    }}
+    errorMessageProps={{ color: 'yellow' }} // forwarded to `FormErrorMessage`
+/>
+```
 
-## Learn More
+### NumberField
+```tsx
+import {
+    NumberDecrementStepper,
+    NumberIncrementStepper,
+    NumberInputField,
+    NumberInputStepper
+} from '@chakra-ui/react';
+import { NumberField } from 'chakra-fields';
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+<NumberField name="age" label="Age" isDisabled={true}>
+    <NumberInputField/>
+</NumberField>
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+<NumberField name="amount" label="Payment Amount" precision={2} min={0} step={100.50}>
+    <NumberInputField/>
+    <NumberInputStepper>
+        <NumberIncrementStepper/>
+        <NumberDecrementStepper/>
+    </NumberInputStepper>
+</NumberField>
+```
+
+### SelectField
+```tsx
+import { SelectField } from 'chakra-fields';
+
+<SelectField name="year" placeholder="Select year of studies">
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+</SelectField>
+```
+
+### CheckboxField
+```tsx
+import { CheckboxField } from 'chakra-fields';
+
+<CheckboxField
+    name="terms"
+    isRequired={true}
+    label="Terms and Conditions"
+    labelProps={{ display: 'inline' }}
+>
+    I agree
+</CheckboxField>
+```
+
+### RadioGroupField
+```tsx
+import { Radio, HStack } from '@chakra-ui/react';
+import { RadioGroupField } from 'chakra-fields';
+
+<RadioGroupField name="favoriteShow" label="Favorite Show?" colorScheme="green">
+    <HStack>
+        <RadioGroupField.Item value="1">The Office</RadioGroupField.Item>
+        <RadioGroupField.Item value="2">Brooklyn 99</RadioGroupField.Item>
+        <Radio value="3">Stranger Things</Radio> {/* Either `Radio` or `RadioGroupField.Item` can be used */}
+    </HStack>
+</RadioGroupField>
+```
+
+### InputGroupField
+```tsx
+import {
+    NumberDecrementStepper,
+    NumberIncrementStepper,
+    NumberInputField,
+    NumberInputStepper,
+    InputLeftElement,
+    InputLeftAddon
+} from '@chakra-ui/react';
+import { InputGroupField } from 'chakra-fields';
+
+<InputGroupField name="salary" label="Salary Amount">
+    <InputLeftElement pointerEvents='none' color='gray.300' fontSize='1.2em' children='$'/>
+    <InputGroupField.NumberInput precision={2} step={100.50} min={0}> {/* `InputGroupField.NumberInput` must be used, not `NumberInput` from `Chakra UI` */}
+        <NumberInputField pl={10}/>
+        <NumberInputStepper>
+            <NumberIncrementStepper/>
+            <NumberDecrementStepper/>
+        </NumberInputStepper>
+    </InputGroupField.NumberInput>
+</InputGroupField>
+
+<InputGroupField name="telephone" label="Telephone number">
+    <InputLeftAddon children='+234'/>
+    <InputGroupField.Input type='tel'/> {/* `InputGroupField.Input` must be used, not `Input` from `Chakra UI` */}
+</<InputGroupField>
+```
+
+### CheckboxGroupField
+```tsx
+import { HStack } from '@chakra-ui/react';
+import { CheckboxGroupField } from 'chakra-fields';
+
+<CheckboxGroupField
+    name="toppings"
+    label="Chose one or more toppings"
+    colorScheme="green"
+    validate={(values: (string | number)[]) => {
+        return values.length === 0 ? 'You must select at least one' : undefined;
+    }}
+>
+    <HStack>
+        <CheckboxGroupField.Item value={1}>Pepperoni</CheckboxGroupField.Item>
+        <CheckboxGroupField.Item value={2}>Pineapple</CheckboxGroupField.Item>
+        <CheckboxGroupField.Item value={3}>More cheese</CheckboxGroupField.Item>
+    </HStack>
+</CheckboxGroupField>
+```
+
+```tsx
+// access a field value within a given formik context
+const formikContext = useFormikContext<Values>();
+const { value } = formikContext.values;
+```
+```tsx
+// react on a change
+const formikContext = useFormikContext<Values>();
+const { value } = formikContext.values;
+
+useEffect(() => {
+    // do something on `value` change. Ex:
+    formikContext.setFieldValue('otherField', value.toUpperCase());
+}, [value]);
+// or
+<TextField name="value" onChange={(e) => {
+    // do something on `value` change. Ex:
+    formikContext.setFieldValue('otherField', e.target.value.toUpperCase());
+}}/>
+```
+See also the `formik` docs for [`useFormikContext`](https://formik.org/docs/api/useFormikContext) and [`Formik`](https://formik.org/docs/api/formik) to see what are the capabilities and how you can use them here.
+
+### `/examples`
+- This folder contains two files that create the same form, but in two different ways: one with `chakra-fields`, one without it. See those files to see the difference and to see more examples.
+- To see the examples, run `npm start`. This will start a React app that will be hosted on port `3000`.
+
+## Contributors
+- Dejan Slamkov, [Linked In](https://linkedin.com/in/dejan-slamkov)

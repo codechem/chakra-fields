@@ -25,7 +25,7 @@ import { Box, Button,
 } from '@chakra-ui/react';
 import { useField } from 'formik';
 
-import { FormKey, calculateAge } from './App';
+import { FormKey, calculateAge } from './../App';
 
 const NativeChakraExample = () => {
     // DRAWBACK: manually declaring fields --- separate variable names
