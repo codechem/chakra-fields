@@ -25,7 +25,8 @@ import { Box, Button,
 } from '@chakra-ui/react';
 import { useField } from 'formik';
 
-import { FormKey, calculateAge } from './../App';
+import { calculateAge } from './utils';
+import { FormKey } from './types';
 
 const NativeChakraExample = () => {
     // DRAWBACK: manually declaring fields --- separate variable names
@@ -39,8 +40,8 @@ const NativeChakraExample = () => {
     const [yearStudiesField, yearStudiesMeta] = useField<string>(FormKey.YEAR_STUDIES);
     const [tuitionAmountField, tuitionAmountMeta, tuitionAmountHelpers] = useField<string>(FormKey.TUITION_AMOUNT);
     const [languagesField, languagesMeta, languagesHelpers] = useField<number[]>(FormKey.LANGUAGES);
-    const [commentsField, commentsMeta, commentsHelpers] = useField<string>(FormKey.COMMENTS);
-    const [termsField, termsMeta, termsHelpers] = useField<boolean>(FormKey.TERMS);
+    const [commentsField, commentsMeta] = useField<string>(FormKey.COMMENTS);
+    const [termsField, termsMeta] = useField<boolean>(FormKey.TERMS);
 
     const isLanguagesInvalid = !!languagesMeta.error && languagesMeta.touched; // DRAWBACK: `touched` is not set for some reason
     return (
