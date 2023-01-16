@@ -3,8 +3,12 @@
   "description": "A simple package that makes working with Chakra UI and Formik cleaner and easier.",
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "git+https://github.com/codechem/chakra-fields.git"
   },
+  "bugs": {
+    "url": "https://github.com/codechem/chakra-fields/issues"
+  },
+  "homepage": "https://github.com/codechem/chakra-fields#readme",
   "author": {
     "name": "Dejan Slamkov",
     "email": "dejan@codechem.com",
@@ -17,7 +21,7 @@
     "chakra ui form"
   ],
   "license": "MIT",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "main": "index.js",
   "dependencies": {
