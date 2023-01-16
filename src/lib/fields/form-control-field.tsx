@@ -6,7 +6,7 @@ import { FieldProps, FormFieldLabelProps } from '../types';
 import { floatingLabelProps } from '../utils';
 
 export type FormControlFieldProps = {
-    errorMessageProps?: FormErrorMessageProps;
+  errorMessageProps?: FormErrorMessageProps;
 } & FormFieldLabelProps & FieldProps & FormControlProps;
 
 /**
@@ -23,33 +23,33 @@ export type FormControlFieldProps = {
  * @see See [Chakra UI FormControl](https://chakra-ui.com/docs/components/form-control).
  */
 const FormControlField: React.FC<FormControlFieldProps> = ({
-    name,
-    children,
-    label,
-    labelProps,
-    labelPosition = 'before',
-    errorMessageProps,
-    ...formControlProps
+  name,
+  children,
+  label,
+  labelProps,
+  labelPosition = 'before',
+  errorMessageProps,
+  ...formControlProps
 }: FormControlFieldProps) => {
-    const formikContext = useFormikContext();
-    const meta = formikContext.getFieldMeta(name);
+  const formikContext = useFormikContext();
+  const meta = formikContext.getFieldMeta(name);
 
-	let formLabel = null;
-    if (label) {
-        formLabel = (<FormLabel {...labelProps}>{label}</FormLabel>);
-        if (labelPosition === 'floating') {
-            formLabel = (<FormLabel {...labelProps} {...floatingLabelProps}>{label}</FormLabel>);
-        }
+  let formLabel = null;
+  if (label) {
+    formLabel = (<FormLabel {...labelProps}>{label}</FormLabel>);
+    if (labelPosition === 'floating') {
+      formLabel = (<FormLabel {...labelProps} {...floatingLabelProps}>{label}</FormLabel>);
     }
-    
-	return (
-		<FormControl {...formControlProps} name={name} isInvalid={!!meta.error && meta.touched}>
-			{labelPosition === 'before' && formLabel}
-			{children}
-			{(labelPosition === 'after' || labelPosition === 'floating') && formLabel}
-			<FormErrorMessage {...errorMessageProps}>{meta.error}</FormErrorMessage>
-		</FormControl>
-	);
+  }
+
+  return (
+    <FormControl {...formControlProps} name={name} isInvalid={!!meta.error && meta.touched}>
+      {labelPosition === 'before' && formLabel}
+      {children}
+      {(labelPosition === 'after' || labelPosition === 'floating') && formLabel}
+      <FormErrorMessage {...errorMessageProps}>{meta.error}</FormErrorMessage>
+    </FormControl>
+  );
 };
 
 export default FormControlField;

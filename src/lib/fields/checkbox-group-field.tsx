@@ -7,12 +7,12 @@ import { FormFieldProps, ValidatedFieldProps } from '../types';
 import { CheckboxGroupContextProvider } from '../context/checkbox-group-context';
 
 export type CheckboxGroupFieldProps = {
-    children?: React.ReactNode;
-    size?: "sm" | "md" | "lg";
-    isDisabled?: boolean;
-    colorScheme?: (string & {}) | "blue" | "cyan" | "gray" | "green" | "orange" | "pink" | "purple" | "red" | "teal" | "yellow" | "whiteAlpha" | "blackAlpha" | "linkedin" | "facebook" | "messenger" | "whatsapp" | "twitter" | "telegram";
-    onChange?: (values: (string | number)[]) => void;
-    onBlur?: React.FocusEventHandler<HTMLInputElement>;
+  children?: React.ReactNode;
+  size?: "sm" | "md" | "lg";
+  isDisabled?: boolean;
+  colorScheme?: (string & {}) | "blue" | "cyan" | "gray" | "green" | "orange" | "pink" | "purple" | "red" | "teal" | "yellow" | "whiteAlpha" | "blackAlpha" | "linkedin" | "facebook" | "messenger" | "whatsapp" | "twitter" | "telegram";
+  onChange?: (values: (string | number)[]) => void;
+  onBlur?: React.FocusEventHandler<HTMLInputElement>;
 } & ValidatedFieldProps<(string | number)[]> & FormFieldProps;
 
 /**
@@ -40,38 +40,38 @@ export type CheckboxGroupFieldProps = {
  * @see See [Chakra UI Checkbox](https://chakra-ui.com/docs/components/checkbox)
  */
 const CheckboxGroupField: React.FC<CheckboxGroupFieldProps> = ({
-	name,
-    validate,
-    children,
-	label,
-	labelPosition = 'before',
-	labelProps,
-	formControlProps,
-	errorMessageProps,
-    size,
-    isDisabled,
-    colorScheme,
-    onChange,
-    onBlur
+  name,
+  validate,
+  children,
+  label,
+  labelPosition = 'before',
+  labelProps,
+  formControlProps,
+  errorMessageProps,
+  size,
+  isDisabled,
+  colorScheme,
+  onChange,
+  onBlur
 }: CheckboxGroupFieldProps) => {
-	const [field, meta, helpers] = useField<(string | number)[]>({ name, validate, type: 'checkbox' });
-	return (
-		<FormControlField
-			name={field.name}
-            label={label as any}
-			labelProps={labelProps}
-			labelPosition={labelPosition}
-			errorMessageProps={errorMessageProps}
-			{...formControlProps}
-            isDisabled={isDisabled || formControlProps?.isDisabled}
-		>
-            <CheckboxGroupContextProvider
-                value={{ field, meta, helpers, size, isDisabled, colorScheme, onChange, onBlur }}
-            >
-                {children}
-            </CheckboxGroupContextProvider>
-		</FormControlField>
-	);
+  const [field, meta, helpers] = useField<(string | number)[]>({ name, validate, type: 'checkbox' });
+  return (
+    <FormControlField
+      name={field.name}
+      label={label as any}
+      labelProps={labelProps}
+      labelPosition={labelPosition}
+      errorMessageProps={errorMessageProps}
+      {...formControlProps}
+      isDisabled={isDisabled || formControlProps?.isDisabled}
+    >
+      <CheckboxGroupContextProvider
+        value={{ field, meta, helpers, size, isDisabled, colorScheme, onChange, onBlur }}
+      >
+        {children}
+      </CheckboxGroupContextProvider>
+    </FormControlField>
+  );
 };
 
 export default Object.assign(CheckboxGroupField, { Item: Checkbox });

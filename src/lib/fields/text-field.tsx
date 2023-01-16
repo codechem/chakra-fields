@@ -25,30 +25,30 @@ export type TextFieldProps = ValidatedFieldProps<string> & FormFieldProps & Inpu
  * @see See [Chakra UI Input](https://chakra-ui.com/docs/components/input)
  */
 const TextField: React.FC<TextFieldProps> = ({
-	name,
-	validate,
-	label,
-	labelPosition = 'before',
-	labelProps,
-	formControlProps,
-	errorMessageProps,
-	...inputProps
+  name,
+  validate,
+  label,
+  labelPosition = 'before',
+  labelProps,
+  formControlProps,
+  errorMessageProps,
+  ...inputProps
 }: TextFieldProps) => {
-	const [field, meta, helpers] = useField<string>({ name, validate, type: 'text' });
-	return (
-		<FormControlField
-			name={field.name}
-			label={label as any}
-			labelProps={labelProps}
-			labelPosition={labelPosition}
-			errorMessageProps={errorMessageProps}
-			{...{ ...extractFormControlOptions(inputProps), ...formControlProps }}
-		>
-			<FormikFieldContextProvider value={{ field, meta, helpers }}>
-				<Input {...inputProps} />
-			</FormikFieldContextProvider>
-		</FormControlField>
-	);
+  const [field, meta, helpers] = useField<string>({ name, validate, type: 'text' });
+  return (
+    <FormControlField
+      name={field.name}
+      label={label as any}
+      labelProps={labelProps}
+      labelPosition={labelPosition}
+      errorMessageProps={errorMessageProps}
+      {...{ ...extractFormControlOptions(inputProps), ...formControlProps }}
+    >
+      <FormikFieldContextProvider value={{ field, meta, helpers }}>
+        <Input {...inputProps} />
+      </FormikFieldContextProvider>
+    </FormControlField>
+  );
 };
 
 export default TextField;

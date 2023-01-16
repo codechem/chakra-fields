@@ -5,8 +5,8 @@ import { IdReactFC } from '../types';
 import { useFormikFieldContext } from '../context/formik-field-context';
 
 const Input: IdReactFC<InputProps> = (inputProps: InputProps) => {
-	const { field, meta } = useFormikFieldContext();
-	return (
+    const { field, meta } = useFormikFieldContext();
+    return (
         <ChakraInput
             {...inputProps}
             {...field}
@@ -20,7 +20,7 @@ const Input: IdReactFC<InputProps> = (inputProps: InputProps) => {
                 inputProps.onBlur?.(e);
             }}
         />
-	);
+    );
 };
 Input.id = 'Input';
 

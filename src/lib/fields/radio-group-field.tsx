@@ -25,43 +25,43 @@ export type RadioGroupFieldProps = ValidatedFieldProps<string> & FormFieldProps 
  * @see See [Chakra UI Radio](https://chakra-ui.com/docs/components/radio)
  */
 const RadioGroupField: React.FC<RadioGroupFieldProps> = ({
-	name,
-	validate,
-    children,
-	label,
-	labelPosition = 'before',
-	labelProps,
-	formControlProps,
-	errorMessageProps,
-	...radioGroupProps
+  name,
+  validate,
+  children,
+  label,
+  labelPosition = 'before',
+  labelProps,
+  formControlProps,
+  errorMessageProps,
+  ...radioGroupProps
 }: RadioGroupFieldProps) => {
-	const [field, meta, helpers] = useField<string>({ name, validate, type: 'radio' });
-	return (
-		<FormControlField
-			name={field.name}
-            label={label as any}
-			labelProps={labelProps}
-			labelPosition={labelPosition}
-			errorMessageProps={errorMessageProps}
-			{...{ ...extractFormControlOptions(radioGroupProps), ...formControlProps }}
-		>
-			<RadioGroup
-                {...radioGroupProps}
-                name={field.name}
-                value={meta.value || ''}
-				onChange={(nextValue: string) => {
-                    helpers.setValue(nextValue);
-					radioGroupProps.onChange?.(nextValue);
-				}}
-				onBlur={(e: React.FocusEvent<HTMLInputElement>) => {
-					field.onBlur(e);
-					radioGroupProps.onBlur?.(e);
-				}}
-			>
-                {children}
-			</RadioGroup>
-		</FormControlField>
-	);
+  const [field, meta, helpers] = useField<string>({ name, validate, type: 'radio' });
+  return (
+    <FormControlField
+      name={field.name}
+      label={label as any}
+      labelProps={labelProps}
+      labelPosition={labelPosition}
+      errorMessageProps={errorMessageProps}
+      {...{ ...extractFormControlOptions(radioGroupProps), ...formControlProps }}
+    >
+      <RadioGroup
+        {...radioGroupProps}
+        name={field.name}
+        value={meta.value || ''}
+        onChange={(nextValue: string) => {
+          helpers.setValue(nextValue);
+          radioGroupProps.onChange?.(nextValue);
+        }}
+        onBlur={(e: React.FocusEvent<HTMLInputElement>) => {
+          field.onBlur(e);
+          radioGroupProps.onBlur?.(e);
+        }}
+      >
+        {children}
+      </RadioGroup>
+    </FormControlField>
+  );
 };
 
 export default Object.assign(RadioGroupField, { Item: Radio });
