@@ -52,7 +52,7 @@ const [field, meta, helpers] = useField<string>({
 Looks a little bit too much doesn't it? Let's fix that:
 ```tsx
 import { NumberInputField } from '@chakra-ui/react';
-import { NumberField } from 'chakra-fields';
+import { NumberField } from '@codechem/chakra-fields';
 
 <NumberField
     name="age"
@@ -74,7 +74,7 @@ Much better! Everything in one place where it belongs. No more multiple lines of
 ## Installing chakra-fields
 
 ```sh
-$ npm i chakra-fields
+$ npm i @codechem/chakra-fields
 ```
 
 ## Available Components
@@ -122,7 +122,7 @@ import { Form, Formik } from 'formik';
 
 ### TextField
 ```tsx
-import { TextField } from 'chakra-fields';
+import { TextField } from '@codechem/chakra-fields';
 
 <TextField name="username" label="Username" labelPosition="floating"/>
 <TextField name="password" type="password" label="Password" labelPosition="after"/>
@@ -138,7 +138,7 @@ import { TextField } from 'chakra-fields';
 
 ### TextareaField
 ```tsx
-import { TextareaField } from 'chakra-fields';
+import { TextareaField } from '@codechem/chakra-fields';
 
 <TextareaField
     name="comment"
@@ -159,7 +159,7 @@ import {
     NumberInputField,
     NumberInputStepper
 } from '@chakra-ui/react';
-import { NumberField } from 'chakra-fields';
+import { NumberField } from '@codechem/chakra-fields';
 
 <NumberField name="age" label="Age" isDisabled={true}>
     <NumberInputField/>
@@ -176,7 +176,7 @@ import { NumberField } from 'chakra-fields';
 
 ### SelectField
 ```tsx
-import { SelectField } from 'chakra-fields';
+import { SelectField } from '@codechem/chakra-fields';
 
 <SelectField name="year" placeholder="Select year of studies">
     <option value="1">1</option>
@@ -187,7 +187,7 @@ import { SelectField } from 'chakra-fields';
 
 ### CheckboxField
 ```tsx
-import { CheckboxField } from 'chakra-fields';
+import { CheckboxField } from '@codechem/chakra-fields';
 
 <CheckboxField
     name="terms"
@@ -202,7 +202,7 @@ import { CheckboxField } from 'chakra-fields';
 ### RadioGroupField
 ```tsx
 import { Radio, HStack } from '@chakra-ui/react';
-import { RadioGroupField } from 'chakra-fields';
+import { RadioGroupField } from '@codechem/chakra-fields';
 
 <RadioGroupField name="favoriteShow" label="Favorite Show?" colorScheme="green">
     <HStack>
@@ -223,7 +223,7 @@ import {
     InputLeftElement,
     InputLeftAddon
 } from '@chakra-ui/react';
-import { InputGroupField } from 'chakra-fields';
+import { InputGroupField } from '@codechem/chakra-fields';
 
 <InputGroupField name="salary" label="Salary Amount">
     <InputLeftElement pointerEvents='none' color='gray.300' fontSize='1.2em' children='$'/>
@@ -245,7 +245,7 @@ import { InputGroupField } from 'chakra-fields';
 ### CheckboxGroupField
 ```tsx
 import { HStack } from '@chakra-ui/react';
-import { CheckboxGroupField } from 'chakra-fields';
+import { CheckboxGroupField } from '@codechem/chakra-fields';
 
 <CheckboxGroupField
     name="toppings"

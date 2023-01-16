@@ -15,7 +15,7 @@
     "react-scripts": "5.0.1",
     "typescript": "^4.9.4",
     "uuid": "^9.0.0",
-    "chakra-fields": "^0.1.0"
+    "@codechem/chakra-fields": "^0.1.0"
   },
   "scripts": {
     "start": "react-scripts start",

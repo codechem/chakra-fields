@@ -1,5 +1,5 @@
 {
-  "name": "chakra-fields",
+  "name": "@codechem/chakra-fields",
   "description": "A simple package that makes working with Chakra UI and Formik cleaner and easier.",
   "repository": {
     "type": "git",
@@ -33,7 +33,7 @@
   },
   "scripts": {
     "clean": "rm -rf dist",
-    "build": "npm run clean && tsc && cp package.json README.md ./dist"
+    "build": "npm run clean && tsc && cp package.json LICENSE README.md ./dist"
   },
   "devDependencies": {
     "@types/uuid": "^9.0.0"

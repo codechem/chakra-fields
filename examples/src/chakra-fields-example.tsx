@@ -22,7 +22,7 @@ import {
     TextField,
     TextareaField,
     SelectField
-} from 'chakra-fields';
+} from '@codechem/chakra-fields';
 
 import { calculateAge } from './utils';
 import { FormKey, Values } from './types';
