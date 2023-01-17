@@ -5,8 +5,8 @@ import { IdReactFC } from '../types';
 import { useFormikFieldContext } from '../context/formik-field-context';
 
 const NumberInput: IdReactFC<NumberInputProps> = (numberInputProps: NumberInputProps) => {
-	const { field, meta, helpers } = useFormikFieldContext();
-	return (
+    const { field, meta, helpers } = useFormikFieldContext();
+    return (
         <ChakraNumberInput
             {...numberInputProps}
             name={field.name}
@@ -22,7 +22,7 @@ const NumberInput: IdReactFC<NumberInputProps> = (numberInputProps: NumberInputP
         >
             {numberInputProps.children}
         </ChakraNumberInput>
-	);
+    );
 };
 NumberInput.id = 'Input';
 

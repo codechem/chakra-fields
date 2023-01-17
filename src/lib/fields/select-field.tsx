@@ -23,43 +23,43 @@ export type SelectFieldProps = ValidatedFieldProps<string> & FormFieldProps & Se
  * @see See [Chakra UI Select](https://chakra-ui.com/docs/components/select)
  */
 const SelectField: React.FC<SelectFieldProps> = ({
-	name,
-	validate,
+  name,
+  validate,
     children: options,
-	label,
-	labelPosition = 'before',
-	labelProps,
-	formControlProps,
-	errorMessageProps,
-	...selectProps
+  label,
+  labelPosition = 'before',
+  labelProps,
+  formControlProps,
+  errorMessageProps,
+  ...selectProps
 }: SelectFieldProps) => {
-	const [field, meta] = useField<string>({ name, validate, type: 'select' });
-	return (
-		<FormControlField
-			name={field.name}
-			label={label as any}
-			labelProps={labelProps}
-			labelPosition={labelPosition}
-			errorMessageProps={errorMessageProps}
-			{...{ ...extractFormControlOptions(selectProps), ...formControlProps }}
-		>
-			<Select
-				{...selectProps}
-				{...field}
-				value={meta.value || ''}
-				onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
-					field.onChange(e);
-					selectProps.onChange?.(e);
-				}}
-				onBlur={(e: React.FocusEvent<HTMLSelectElement>) => {
-					field.onBlur(e);
-					selectProps.onBlur?.(e);
-				}}
-			>
-				{options}
-			</Select>
-		</FormControlField>
-	);
+  const [field, meta] = useField<string>({ name, validate, type: 'select' });
+  return (
+    <FormControlField
+      name={field.name}
+      label={label as any}
+      labelProps={labelProps}
+      labelPosition={labelPosition}
+      errorMessageProps={errorMessageProps}
+      {...{ ...extractFormControlOptions(selectProps), ...formControlProps }}
+    >
+      <Select
+        {...selectProps}
+        {...field}
+        value={meta.value || ''}
+        onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+          field.onChange(e);
+          selectProps.onChange?.(e);
+        }}
+        onBlur={(e: React.FocusEvent<HTMLSelectElement>) => {
+          field.onBlur(e);
+          selectProps.onBlur?.(e);
+        }}
+      >
+        {options}
+      </Select>
+    </FormControlField>
+  );
 };
 
 export default SelectField;

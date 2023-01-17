@@ -26,43 +26,43 @@ export type CheckboxFieldProps = ValidatedFieldProps<boolean> & FormFieldProps &
  * @see See [Chakra UI Checkbox](https://chakra-ui.com/docs/components/checkbox)
  */
 const CheckboxField: React.FC<CheckboxFieldProps> = ({
-	name,
-	validate,
-    children,
-	label,
-	labelPosition = 'before',
-	labelProps,
-	formControlProps,
-	errorMessageProps,
-	...checkboxProps
+  name,
+  validate,
+  children,
+  label,
+  labelPosition = 'before',
+  labelProps,
+  formControlProps,
+  errorMessageProps,
+  ...checkboxProps
 }: CheckboxFieldProps) => {
-	const [field] = useField<boolean>({ name, validate, type: 'checkbox' });
-	return (
-		<FormControlField
-			name={field.name}
-			label={label as any}
-			labelProps={labelProps}
-			labelPosition={labelPosition}
-			errorMessageProps={errorMessageProps}
-			{...{ ...extractFormControlOptions(checkboxProps), ...formControlProps }}
-		>
-			<Checkbox
-				{...checkboxProps}
-				name={field.name}
-				isChecked={field.checked}
-				onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-					field.onChange(e);
-					checkboxProps.onChange?.(e);
-				}}
-				onBlur={(e: React.FocusEvent<HTMLInputElement>) => {
-					field.onBlur(e);
-					checkboxProps.onBlur?.(e);
-				}}
-			>
-				{children}
-			</Checkbox>
-		</FormControlField>
-	);
+  const [field] = useField<boolean>({ name, validate, type: 'checkbox' });
+  return (
+    <FormControlField
+      name={field.name}
+      label={label as any}
+      labelProps={labelProps}
+      labelPosition={labelPosition}
+      errorMessageProps={errorMessageProps}
+      {...{ ...extractFormControlOptions(checkboxProps), ...formControlProps }}
+    >
+      <Checkbox
+        {...checkboxProps}
+        name={field.name}
+        isChecked={field.checked}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+          field.onChange(e);
+          checkboxProps.onChange?.(e);
+        }}
+        onBlur={(e: React.FocusEvent<HTMLInputElement>) => {
+          field.onBlur(e);
+          checkboxProps.onBlur?.(e);
+        }}
+      >
+        {children}
+      </Checkbox>
+    </FormControlField>
+  );
 };
 
 export default CheckboxField;

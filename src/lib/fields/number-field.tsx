@@ -27,33 +27,33 @@ export type NumberFieldProps = ValidatedFieldProps<string> & FormFieldProps & Nu
  * @see See [Chakra UI Number Input](https://chakra-ui.com/docs/components/number-input)
  */
 const NumberField: React.FC<NumberFieldProps> = ({
-	name,
-	validate,
-    children,
-	label,
-	labelPosition = 'before',
-	labelProps,
-	formControlProps,
-	errorMessageProps,
-	...numberInputProps
+  name,
+  validate,
+  children,
+  label,
+  labelPosition = 'before',
+  labelProps,
+  formControlProps,
+  errorMessageProps,
+  ...numberInputProps
 }: NumberFieldProps) => {
-	const [field, meta, helpers] = useField<string>({ name, validate, type: 'number' });
-	return (
-		<FormControlField
-			name={field.name}
-			label={label as any}
-			labelProps={labelProps}
-			labelPosition={labelPosition}
-			errorMessageProps={errorMessageProps}
-			{...{ ...extractFormControlOptions(numberInputProps), ...formControlProps }}
-		>
-			<FormikFieldContextProvider value={{ field, meta, helpers }}>
-				<NumberInput {...numberInputProps}>
-					{children}
-				</NumberInput>
-			</FormikFieldContextProvider>
-		</FormControlField>
-	);
+  const [field, meta, helpers] = useField<string>({ name, validate, type: 'number' });
+  return (
+    <FormControlField
+      name={field.name}
+      label={label as any}
+      labelProps={labelProps}
+      labelPosition={labelPosition}
+      errorMessageProps={errorMessageProps}
+      {...{ ...extractFormControlOptions(numberInputProps), ...formControlProps }}
+    >
+      <FormikFieldContextProvider value={{ field, meta, helpers }}>
+        <NumberInput {...numberInputProps}>
+          {children}
+        </NumberInput>
+      </FormikFieldContextProvider>
+    </FormControlField>
+  );
 };
 
 export default NumberField;

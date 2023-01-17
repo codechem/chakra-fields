@@ -32,33 +32,33 @@ export type InputGroupFieldProps = ValidatedFieldProps<string> & FormFieldProps 
  * @see See [Chakra UI Input Group](https://chakra-ui.com/docs/components/input#left-and-right-addons)
  */
 const InputGroupField: React.FC<InputGroupFieldProps> = ({
-	name,
+  name,
     validate,
     children,
-	label,
-	labelPosition = 'before',
-	labelProps,
-	formControlProps,
-	errorMessageProps,
+  label,
+  labelPosition = 'before',
+  labelProps,
+  formControlProps,
+  errorMessageProps,
     ...inputGroupProps
 }: InputGroupFieldProps) => {
-	const [field, meta, helpers] = useField<string>({ name, validate, type: 'text' });
-	return (
-		<FormControlField
-			name={field.name}
+  const [field, meta, helpers] = useField<string>({ name, validate, type: 'text' });
+  return (
+    <FormControlField
+      name={field.name}
             label={label as any}
-			labelProps={labelProps}
-			labelPosition={labelPosition}
-			errorMessageProps={errorMessageProps}
-			{...{ ...extractFormControlOptions(inputGroupProps), ...formControlProps }}
-		>
-			<FormikFieldContextProvider value={{ field, meta, helpers }}>
-				<InputGroup {...inputGroupProps}>
-					{children}
-				</InputGroup>
-			</FormikFieldContextProvider>
-		</FormControlField>
-	);
+      labelProps={labelProps}
+      labelPosition={labelPosition}
+      errorMessageProps={errorMessageProps}
+      {...{ ...extractFormControlOptions(inputGroupProps), ...formControlProps }}
+    >
+      <FormikFieldContextProvider value={{ field, meta, helpers }}>
+        <InputGroup {...inputGroupProps}>
+          {children}
+        </InputGroup>
+      </FormikFieldContextProvider>
+    </FormControlField>
+  );
 };
 
 const FullWidthNumberInput = (props: NumberInputProps) => {

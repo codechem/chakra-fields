@@ -23,37 +23,49 @@ import {
     FormErrorMessage,
     FormLabel,
     NumberInput,
-    NumberInputField
+    NumberInputField,
+    Input
 } from '@chakra-ui/react';
 import { useField } from 'formik';
 
-const [field, meta, helpers] = useField<string>({
+const [fullNameField, fullNameMeta] = useField<string>('fullName');
+const [ageField, ageMeta, ageHelpers] = useField<string>({
     name: 'age',
     validate: (value: string) => {
         return Number(value) < 18 ? 'Must be above 18' : undefined;
     }
 });
 
-<FormControl isRequired={true} isInvalid={!!meta.error && meta.touched}>
+<FormControl isRequired={true} isInvalid={!!fullNameMeta.error && fullNameMeta.touched}>
+    <FormLabel>Full name: </FormLabel>
+    <Input {...fullNameField}/>
+    <FormErrorMessage>{fullNameMeta.error}</FormErrorMessage>
+</FormControl>
+<FormControl isRequired={true} isInvalid={!!ageMeta.error && ageMeta.touched}>
     <FormLabel display="inline" w="20%">Age: </FormLabel>
     <NumberInput
-        {...field}
+        {...ageField}
         w="80%"
         min={0}
         onChange={(valueAsString: string) => {
-            helpers.setValue(valueAsString);
+            ageHelpers.setValue(valueAsString);
         }}
     >
         <NumberInputField/>
     </NumberInput>
-    <FormErrorMessage>{meta.error}</FormErrorMessage>
+    <FormErrorMessage>{ageMeta.error}</FormErrorMessage>
 </FormControl>
 ```
 Looks a little bit too much doesn't it? Let's fix that:
 ```tsx
 import { NumberInputField } from '@chakra-ui/react';
-import { NumberField } from '@codechem/chakra-fields';
+import { NumberField, TextField } from '@codechem/chakra-fields';
 
+<TextField
+    name="fullName"
+    label="Full name: "
+    isRequired={true}
+/>
 <NumberField
     name="age"
     w="80%"
@@ -81,14 +93,15 @@ $ npm i @codechem/chakra-fields
 
 The following components wrap the standard `Chakra UI` form inputs with the `FormControl` component, while handling state, validation and error messages with `formik`. First see [`FormControlField`](https://github.com/codechem/chakra-fields/tree/master/src/lib/fields/form-control-field.tsx).
 
-- [`TextField`](https://github.com/codechem/chakra-fields/tree/master/src/lib/fields/text-field.tsx) -> wrapper around `Chakra UI`'s `Input` component. Used usually for `text`, `password`, `email`, `date`, `datetime-local` input types. The `formik` state holds a `string` value for this field. For styling you can set all style props that you would set on a `Input` component. See also [Chakra UI Input docs](https://chakra-ui.com/docs/components/input).
-- [`TextareaField`](https://github.com/codechem/chakra-fields/tree/master/src/lib/fields/textarea-field.tsx) -> wrapper around `Chakra UI`'s `Textarea` component. The `formik` state holds a `string` value for this field. For styling you can set all style props that you would set on a `Textarea` component. See also [Chakra UI Textarea docs](https://chakra-ui.com/docs/components/textarea).
-- [`NumberField`](https://github.com/codechem/chakra-fields/tree/master/src/lib/fields/number-field.tsx) ->  wrapper around `Chakra UI`'s `NumberInput` component. The `formik` state holds a `string` value for this field. For styling you can set all style props that you would set on a `NumberInput` component. See also [Chakra UI NumberInput docs](https://chakra-ui.com/docs/components/number-input).
-- [`SelectField`](https://github.com/codechem/chakra-fields/tree/master/src/lib/fields/select-field.tsx) -> wrapper around `Chakra UI`'s `Select` component. The `formik` state holds a `string` value for this field. For styling you can set all style props that you would set on a `Select` component. See also [Chakra UI Select docs](https://chakra-ui.com/docs/components/select).
-- [`CheckboxField`](https://github.com/codechem/chakra-fields/tree/master/src/lib/fields/checkbox-field.tsx) -> wrapper around `Chakra UI`'s `Checkbox` component. This component should be used as a single checkbox component. The `formik` state holds a `boolean` value for this field. For styling you can set all style props that you would set on a `Checkbox` component. See also [Chakra UI Checkbox docs](https://chakra-ui.com/docs/components/checkbox).
-- [`RadioGroupField`](https://github.com/codechem/chakra-fields/tree/master/src/lib/fields/radio-group-field.tsx) -> wrapper around `Chakra UI`'s `RadioGroup` component. The group is composed of multiple radio buttons. Use `Radio` from `Chakra UI` or `RadioGroupField.Item` (alias to `Radio`) as components for the radio buttons. The `formik` state holds a `string` value for this field. For styling you can set all style props that you would set on a `RadioGroup` component. See also [Chakra UI RadioGroup docs](https://chakra-ui.com/docs/components/radio).
-- [`InputGroupField`](https://github.com/codechem/chakra-fields/tree/master/src/lib/fields/input-group-field.tsx) -> wrapper around `Chakra UI`'s `InputGroup` component. The group is composed from one input element (`Input`/`NumberInput`) and one or multiple right/left addons/elements. See [Chakra UI docs](https://chakra-ui.com/docs/components/input#left-and-right-addons). The difference here is that instead of using the native `Chakra UI` input element as part of the group, the `InputGroupField.Input` or `InputGroupField.NumberInput` **must** be used instead. The `formik` state holds a `string` value for this field. For styling you can set all style props that you would set on a `InputGroup` component. See also [Chakra UI InputGroup docs](https://chakra-ui.com/docs/components/input).
-- [`CheckboxGroupField`](https://github.com/codechem/chakra-fields/tree/master/src/lib/fields/checkbox-group-field.tsx) -> this is actually a new component and does not wrap any existing `Chakra UI` component, but it behaves similarly to the `CheckboxGroup` component. This group consists of multiple choice checkboxes and the component to be used for them **must** be `CheckboxGroupField.Item`. The `formik` state holds a `(string | number)[]` value for this field. For styling you can set all style props that you would set on a `CheckboxGroup` component. See also [Chakra UI CheckboxGroup docs](https://chakra-ui.com/docs/components/checkbox).
+- [`TextField`](#textfield) -> wrapper around `Chakra UI`'s `Input` component. Used usually for `text`, `password`, `email`, `date`, `datetime-local` input types. The `formik` state holds a `string` value for this field. For styling you can set all style props that you would set on a `Input` component. See also [Chakra UI Input docs](https://chakra-ui.com/docs/components/input).
+- [`TextareaField`](#textareafield) -> wrapper around `Chakra UI`'s `Textarea` component. The `formik` state holds a `string` value for this field. For styling you can set all style props that you would set on a `Textarea` component. See also [Chakra UI Textarea docs](https://chakra-ui.com/docs/components/textarea).
+- [`NumberField`](#numberfield) ->  wrapper around `Chakra UI`'s `NumberInput` component. The `formik` state holds a `string` value for this field. For styling you can set all style props that you would set on a `NumberInput` component. See also [Chakra UI NumberInput docs](https://chakra-ui.com/docs/components/number-input).
+- [`SelectField`](#selectfield) -> wrapper around `Chakra UI`'s `Select` component. The `formik` state holds a `string` value for this field. For styling you can set all style props that you would set on a `Select` component. See also [Chakra UI Select docs](https://chakra-ui.com/docs/components/select).
+- [`CheckboxField`](#checkboxfield) -> wrapper around `Chakra UI`'s `Checkbox` component. This component should be used as a single checkbox component. The `formik` state holds a `boolean` value for this field. For styling you can set all style props that you would set on a `Checkbox` component. See also [Chakra UI Checkbox docs](https://chakra-ui.com/docs/components/checkbox).
+- [`RadioGroupField`](#radiogroupfield) -> wrapper around `Chakra UI`'s `RadioGroup` component. The group is composed of multiple radio buttons. Use `Radio` from `Chakra UI` or `RadioGroupField.Item` (alias to `Radio`) as components for the radio buttons. The `formik` state holds a `string` value for this field. For styling you can set all style props that you would set on a `RadioGroup` component. See also [Chakra UI RadioGroup docs](https://chakra-ui.com/docs/components/radio).
+- [`InputGroupField`](#inputgroupfield) -> wrapper around `Chakra UI`'s `InputGroup` component. The group is composed from one input element (`Input`/`NumberInput`) and one or multiple right/left addons/elements. See [Chakra UI docs](https://chakra-ui.com/docs/components/input#left-and-right-addons). The difference here is that instead of using the native `Chakra UI` input element as part of the group, the `InputGroupField.Input` or `InputGroupField.NumberInput` **must** be used instead. The `formik` state holds a `string` value for this field. For styling you can set all style props that you would set on a `InputGroup` component. See also [Chakra UI InputGroup docs](https://chakra-ui.com/docs/components/input).
+- [`CheckboxGroupField`](#checkboxgroupfield) -> this is actually a new component and does not wrap any existing `Chakra UI` component, but it behaves similarly to the `CheckboxGroup` component. This group consists of multiple choice checkboxes and the component to be used for them **must** be `CheckboxGroupField.Item`. The `formik` state holds a `(string | number)[]` value for this field. For styling you can set all style props that you would set on a `CheckboxGroup` component. See also [Chakra UI CheckboxGroup docs](https://chakra-ui.com/docs/components/checkbox).
+- [`FormControlField`](#formcontrolfield) -> wrapper around `Chakra UI`'s `FormControl` component. It is used to wrap the previously listed fields. This component does not hold `formik` state on its own and it expects that there is already a field defined, i.e. state, with the given name in the `formik` context when used. **It is not recommended to be used**, it is more for internal use.
 
 ### Props
 
@@ -264,6 +277,20 @@ import { CheckboxGroupField } from '@codechem/chakra-fields';
 </CheckboxGroupField>
 ```
 
+### FormControlField
+**_WARNING_**: not recommended for use. Use the above listed fields which use this field internally
+```tsx
+import { Input } from '@chakra-ui/react';
+import { useField } from 'formik';
+import { FormControlField } from '@codechem/chakra-fields';
+
+const [emailField] = useField<string>('email');
+
+<FormControlField name="email" label="Email: ">
+    <Input {...emailField} type="email"/>
+</FormControlField>
+```
+
 ```tsx
 // access a field value within a given formik context
 const formikContext = useFormikContext<Values>();
@@ -286,9 +313,12 @@ useEffect(() => {
 ```
 See also the `formik` docs for [`useFormikContext`](https://formik.org/docs/api/useFormikContext) and [`Formik`](https://formik.org/docs/api/formik) to see what are the capabilities and how you can use them here.
 
-### `/examples`
-- This folder contains two files that create the same form, but in two different ways: one with `chakra-fields`, one without it. See those files to see the difference and to see more examples.
-- To see the examples, run `npm start`. This will start a React app that will be hosted on port `3000`.
+### More examples
+
+The folder [`/examples`](https://github.com/codechem/chakra-fields/tree/master/examples) contains a `React` application that has `chakra-fields` as a dependency. The application displays the same form two times, the difference being that one is built with `chakra-fields` and the other is built without it. See [`/examples/src/chakra-fields-example.tsx`](https://github.com/codechem/chakra-fields/blob/master/examples/src/chakra-fields-example.tsx) to see the form built with `chakra-fields` and [`/examples/src/native-chakra-example.tsx`](https://github.com/codechem/chakra-fields/blob/master/examples/src/native-chakra-example.tsx) to see the form built without `chakra-fields`. The main thing to notice here is the difference in developing the same form with and without `chakra-fields`.
 
 ## Contributors
-- Dejan Slamkov, [LinkedIn](https://linkedin.com/in/dejan-slamkov)
+- Dejan Slamkov, [GitHub](https://github.com/SlamkovDejan)
+
+## License
+- [MIT](https://opensource.org/licenses/MIT) © [Dejan Slamkov](https://github.com/SlamkovDejan)

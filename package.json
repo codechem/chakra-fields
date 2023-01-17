@@ -21,7 +21,7 @@
     "chakra ui form"
   ],
   "license": "MIT",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "main": "index.js",
   "dependencies": {
