@@ -36,7 +36,7 @@ const TextareaField: React.FC<TextareaFieldProps> = ({
   return (
     <FormControlField
       name={field.name}
-      label={label as any}
+      label={label}
       labelProps={labelProps}
       labelPosition={labelPosition}
       errorMessageProps={errorMessageProps}

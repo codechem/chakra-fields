@@ -7,7 +7,8 @@ import { floatingLabelProps } from '../utils';
 
 export type FormControlFieldProps = {
   errorMessageProps?: FormErrorMessageProps;
-} & FormFieldLabelProps & FieldProps & FormControlProps;
+} & FormFieldLabelProps & FieldProps & Omit<FormControlProps, 'label'>
+
 
 /**
  * **Form Control** component that wraps the other `[*]Field` components. It handles the displaying of error messages from `formik` and input label.

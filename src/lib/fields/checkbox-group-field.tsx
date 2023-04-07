@@ -58,7 +58,7 @@ const CheckboxGroupField: React.FC<CheckboxGroupFieldProps> = ({
   return (
     <FormControlField
       name={field.name}
-      label={label as any}
+      label={label}
       labelProps={labelProps}
       labelPosition={labelPosition}
       errorMessageProps={errorMessageProps}
