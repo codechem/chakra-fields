@@ -41,7 +41,7 @@ const NumberField: React.FC<NumberFieldProps> = ({
   return (
     <FormControlField
       name={field.name}
-      label={label as any}
+      label={label}
       labelProps={labelProps}
       labelPosition={labelPosition}
       errorMessageProps={errorMessageProps}
